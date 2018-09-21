@@ -11,21 +11,12 @@
 
      <div class="form-group" style="margin-left: 40px" >
 
-<<<<<<< HEAD
-    <label for="sel1">
-    Select Project:
-  </label>
- 
-  <select   [(ngModel)]="selectedDropdown" (change)="dropdownData($event.target.value)" >
-    <option></option>
-=======
     <!-- <label for="sel1"> -->
   
     
  
 Select Project: <select  [(ngModel)]="moduleSelected" (change)="dropdownData(moduleSelected)"  >
   <option></option>
->>>>>>> 062ab8cbe9749790844311fd13b42862c11a8fcf
     <option *ngFor="let data of datas">{{data.projectSelection}}</option>
  </select>
 <!-- </span> -->
