@@ -2,9 +2,10 @@ import { Component,OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { Http,Response } from '@angular/http';
 
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs';
+
 import { URLSearchParams } from '@angular/http';
+
 
 import{ImportServiceComponent} from './importPage.service';
 import {ProjectDetailServiceComponent} from './pDetail.service';
@@ -74,6 +75,13 @@ console.log(this.types)
 
 
       }
+
+
+
+
+
+
+      
       getfolder(e) {
    console.log(typeof(e))
 }

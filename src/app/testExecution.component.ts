@@ -2,8 +2,8 @@ import { Component, OnInit} from '@angular/core';
 import { Http,Response } from '@angular/http';
 //import {ProjectSeServiceComponent} from './projectSelection.service';
 
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs';
+
 import { URLSearchParams } from '@angular/http';
 
 import { TestExecutionServiceComponent  } from './testExecution.service';

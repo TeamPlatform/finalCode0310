@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { RouterModule,Routes } from '@angular/router';
 import { HttpModule} from '@angular/http';
 import { FormsModule} from '@angular/forms';
+import { FileDropModule } from 'ngx-file-drop';
+import { HttpClientModule } from '@angular/common/http';
 //import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header.component';
@@ -18,7 +20,7 @@ import { FeatureComponent } from './featurePage.component';
 import { TestExecutionComponent } from './testExecution.component';
 
 import { CaptureLabComponent } from './captureLab.component';
-
+import { ImportProjectComponent} from './importProject.component';
 
 
 import{ModuleServiceComponent} from './modulePage.service';
@@ -30,6 +32,8 @@ const appRoutes: Routes = [
 { path: '', component: LoginComponent },
 
  { path: 'ImportPage', component: ImportComponent },
+
+ { path: 'createProject', component:ImportProjectComponent },
 
  { path: 'projectDetail', component: ProjectDetailComponent,
 
@@ -52,11 +56,11 @@ children:[
 @NgModule({
 	 imports: [
     BrowserModule,HttpModule,RouterModule.forRoot(appRoutes)
-      ,NgbModule,FormsModule
+      ,NgbModule,FormsModule,FileDropModule,HttpClientModule
   ],
   declarations: [
 
-   AppComponent,HeaderComponent,TestExecutionComponent , CaptureLabComponent , ProjectDetailComponent,ImportComponent,LoginComponent,SelectionComponent,ModuleComponent,FeatureComponent],
+   AppComponent,ImportProjectComponent,HeaderComponent,TestExecutionComponent , CaptureLabComponent , ProjectDetailComponent,ImportComponent,LoginComponent,SelectionComponent,ModuleComponent,FeatureComponent],
 
  
   providers: [LoginServiceComponent,ProjectDetailServiceComponent,ImportServiceComponent,ProjectSelectionServiceComponent,ModuleServiceComponent,FeatureServiceComponent],
