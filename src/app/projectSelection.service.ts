@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { Http,Response } from '@angular/http';
 import { URLSearchParams } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs';
+
 import {Post} from './post'
 @Injectable()
 export class ProjectSelectionServiceComponent {
@@ -14,7 +14,7 @@ export class ProjectSelectionServiceComponent {
  }
    getProjectSelectionDetails():Observable<Post[]>{
  	//alert("ll00")
-   return this.http.get("/selectionProject")
+   return this.http.get("http://localhost:3666/selectionProject")
   .map((response:Response)=><Post[]>response.json());
 
   }

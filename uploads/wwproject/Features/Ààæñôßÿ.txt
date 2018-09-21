@@ -1,5 +1,0 @@
-Zephyr World
-
-Manage all aspects of software quality; integrate with JIRA and various test tools, foster collaboration and gain real-time visibility.
-Our comprehensive suite of test management products fosters global project team collaboration, drives down costs, shortens release cycles, 
-and provides real-time visibility into the status and quality of the software projects

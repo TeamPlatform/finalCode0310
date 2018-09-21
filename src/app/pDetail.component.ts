@@ -47,6 +47,8 @@ importMessage:any;
 valid:boolean
 everyTime: any;
 selectedMod:Post[];
+waitMessage:any;
+wM:string;
     constructor(private router: Router,private route:ActivatedRoute,private module:ProjectDetailServiceComponent) {
     this.show = false;
     this.mo=false;
@@ -64,11 +66,17 @@ selectedMod:Post[];
             let dataFromProjectSelectionDropdown=sessionStorage.getItem('key');
             this.projectName=dataFromProjectSelectionDropdown;
             this.module.projectDetails().subscribe(moduleData =>this.moduleName=moduleData);
-      
-
+            //alert(dataFromProjectSelectionDropdown+"lll")
+//             if(dataFromProjectSelectionDropdown!=undefined){
+//               //alert("sss")
+       
+// }
       }
  
+
+ 
    showDropDown:boolean;
+ 
 
 manualtoggle(clickModule,index){
  this.sMN=clickModule;
@@ -108,7 +116,7 @@ ngOnDestroy(){
 
      
         changeShowStatus(){
-//alert( this.show)
+          //alert( this.valid)
 //this.isValid="isValid";
   if( this.valid!=true){
            this.show = true;
@@ -120,22 +128,27 @@ ngOnDestroy(){
         }
     
         showTestExecution(folderName){
-          this.valid=true;
-          this.module.createFolder(folderName).subscribe(moduleData =>{this.importMessage=moduleData;this.importData(this.importMessage);console.log(this.importMessage)});
+          
+          
+//alert(this.projectName)
+ 
+ this.module.getProjectDir(this.projectName).subscribe(moduleData =>{this.importMessage=moduleData;this.importData(this.importMessage);console.log(this.importMessage)});
+//alert(this.waitMessage)
+this.module.createFolder(folderName).subscribe(moduleData =>{this.importMessage=moduleData;this.importData(this.importMessage);console.log(this.importMessage)});
 
 //alert(this.importMessage+"oppppu")
 // if(this.importMessage==undefined){
 //  //this.importMessage="Please Wait While Files Are Synchronizing"
-//  this.show = false;
-//    this.testExecution=true;
-//    this.mo=false;
-//    this.execute=false;
-
-// } else{
-  this.show = false;
+ this.show = false;
    this.testExecution=true;
    this.mo=false;
    this.execute=false;
+
+// } else{
+  // this.show = false;
+  //  this.testExecution=true;
+  //  this.mo=false;
+  //  this.execute=false;
 //  // this.importMessage="Please Wait While Files Are Synchronizing "
  //}
 
@@ -143,14 +156,26 @@ ngOnDestroy(){
    
         }
         importData(data){
-//alert(this.valid+"ppppqq")
+          this.valid=true;
+          //alert(data)
+ if(data==="Please Wait Files Are Synchronizing"){
           this.importMessage=data
+       
+        }
+        else if(data==="Synchronized Done"){
+       this.importMessage=data
+       this.valid=false;
+
+        }
+
+         // else{
          // alert(this.importMessage)
-           this.show = false;
-   this.testExecution=true;
-   this.mo=false;
-   this.execute=false;
-   this.valid=false;
+   //         this.show = false;
+   // this.testExecution=true;
+   // this.mo=false;
+   // this.execute=false;
+   // this.valid=false;
+ // }
 
 }
           goCreateModule(){

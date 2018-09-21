@@ -11,28 +11,41 @@
 
      <div class="form-group" style="margin-left: 40px" >
 
-    <label for="sel1">
-    Select Project:
-  </label>
-  <select   [(ngModel)]="selectedDropdown" (change)="dropdownData($event.target.value)" >
+    <!-- <label for="sel1"> -->
+  
+    
+ 
+Select Project: <select  [(ngModel)]="moduleSelected" (change)="dropdownData(moduleSelected)"  >
+  <option></option>
     <option *ngFor="let data of datas">{{data.projectSelection}}</option>
  </select>
+<!-- </span> -->
 
 
-  </div>
 
-<form >
+
+<!-- <form > -->
   <div>
-  <input type="file"  (change)="filesPicked($event)" name="file" id="files" class="custom-file-input"  webkitdirectory > <button><label for="files" class="custom-file-label">Import Project
-   </label>  </button>
-   <button type="button" (click)="createDbs()">CreateDbs</button>
+ <!--    <div>
+        Select Framework:<select [(ngModel)]="frameworkSelected" (change)="framework(frameworkSelected)">
+    <option ></option>
+  <option >Cuccumber</option>
+  <option >TestNg</option>
+ 
+</select>
+    </div> -->
+    <br>
+<br>
+  <!-- <input type="file"  (change)="filesPicked($event)" name="file" id="files" class="custom-file-input"  webkitdirectory > <button><label for="files" class="custom-file-label">Import Project
+   </label>  </button> -->
+   <button type="button" (click)="createProject()">Create Project</button>
   </div>
   
-</form>
+<!-- </form> -->
 <br>
 <br>
 <br>
-{{message}}
+<!-- {{message}} -->
 <!-- <p>Directory: <input type="file" webkitdirectory mozdirectory /></p> -->
 
 <router-outlet  ></router-outlet>

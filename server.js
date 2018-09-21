@@ -3,10 +3,7 @@ const app=express();
 const path=require('path');
 var mongo = require('mongodb');
 const bodyParser=require('body-parser');
-// <<<<<<< HEAD
-// =======
 var rimraf = require('rimraf');
-// >>>>>>> c49741cc4aec1c2a80e1403f702de05f8427cec7
 //const crypto=require('crypto')//give file name
 const multer=require('multer')
 const GridFsStorage=require('multer-gridfs-storage')
@@ -42,7 +39,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
 
-var db=mongojs('Platform',['loginDetails','projectSelection','mobileApps'])
+var db=mongojs('collections',['asd'])
 console.log(db)
 
 //for folders
@@ -98,7 +95,7 @@ const storage = new GridFsStorage({
   file: (req, file) => {
     return new Promise((resolve, reject) => {
       //crypto.randomBytes(16, (err, buf) => {
-
+ 
         var path = req.params.a;
         var latestPath =   path.replace(/[-]/gi, '/');
        
@@ -135,19 +132,106 @@ const storage = new GridFsStorage({
 });
 const upload = multer({ storage });
 
+// <<<<<<< HEAD
+
+// var incOnce=1;
+// if(incOnce===1){
+//   db.countInc.insert({ "projectID" : "pID",
+//     "moduleID" : "mID",
+//     "featureID" : "fID",
+//     "scriptID" : "sID",
+//     "fCount" : 1,
+//     "pCount" : 1,
+//     "mCount" : 1,
+//     "sCount" : 1})
+
+//   incOnce++
+// }
 
 
+
+
+// var dir = __dirname+/uploads/;
+
+// fs.readdir(dir, function(err, files){
+//   //console.log(files)
+//   files = files.map(function (fileName) {
+//      //console.log("111"+fileName)
+//     return {
+
+//       name: fileName,
+//        time: fs.statSync(dir + '/' + fileName).mtime
+        
+
+//     };
+//   })
+//    .sort(function (a, b) {
+  
+
+//     return a.time - b.time; })
+//   .map(function (v) {
+  
+//     var minCheck=(((new Date()-v.time)/1000)/60)
+//     var finalDir=dir+v.name
+//     console.log(minCheck)
+//     console.log(finalDir)
+//     if (minCheck<10){
+//      console.log("dddddddddd") 
+// rimraf(finalDir, function () { console.log('done'); }); 
+//     }
+
+
+//   });
+// }); 
+
+
+
+
+
+
+
+var aCount = null;
+  var smId=null;
+   var sfID=null;
+   var ssID=null;
+   //var pIDSyn=null;
+    var proID=null;
+    var  pCount=null;
+     var  mCount=null;
+      var  fCount=null;
+       var  sCount=null;
+    var pID=null;
+var moduleCount = 1;
+
+ 
 app.post("/projectSelection/:a",upload.any(),function(req, res,next) {
+//console.log(req.body.dataFromFrameworkDropdown)
+
+    db.countInc.find({},function(err,doc){
+    proID=doc[0].projectID
+   pCount=doc[0].pCount
+     mCount=doc[0].mCount
+       fCount=doc[0].fCount
+         sCount=doc[0].sCount
+   smId=doc[0].moduleID
+      sfID=doc[0].featureID
+        ssID=doc[0].scriptID
+
+//console.log(pID+"uiiiii")
+   
+   })
+
+
 
    let projectName = req.files[0].fieldname.split("/");
  
   var path=__dirname+"/uploads/"+projectName[0]
                           //  console.log(path)
 let lengthCount = Number(req.body.totalLength-1);
- 
+
                                   // if()
  if( Number(req.body.currentLength) === Number(req.body.totalLength-1) && !fs.existsSync(path)){
- 
+ //console.log("1111111111111uuuuuuu")
     var trialCall = function() {
         //  setTimeout(function() {
       //console.log("Task 311111111111113333333333333333333333333333  ");
@@ -156,11 +240,12 @@ let lengthCount = Number(req.body.totalLength-1);
             // gfs = gridfs(conn.db, mongoose.mongo);
            
             //  gfs.collection('folder');
-           var  lengthCount =1910;
+           //var  lengthCount =1910;
+            // setTimeout(function() {
           gfs.files.find({contentType:projectName[0]}).toArray(function (err, files) {
-  
-            //console.log("files length  "+files.length)
-             let lengthCheck = files.length -1 ; 
+
+            console.log("files length  "+files.length)
+             let lengthCheck = files.length ; 
              var totalfiles=files.length
            //  console.log(files)
              let i = 0;
@@ -175,6 +260,7 @@ let lengthCount = Number(req.body.totalLength-1);
                 let m =0;
               var  trialcall1 =  function(m){
                     if(m=== lengthCheck){
+                      console.log("eeeeeeeeee")
                       //   setTimeout(function(){
 
                       
@@ -184,6 +270,7 @@ let lengthCount = Number(req.body.totalLength-1);
                        // createDbs(files[m].contentType)
                         //console.log(m+" no loop "+"   "+files[m].filename) 
                     }else{
+                  console.log("333333333uuuuuuu")
                         shell.mkdir('-p',"./"+files[m].metadata)
       
              const stream = gfs.createReadStream(files[m].filename);
@@ -198,42 +285,29 @@ let lengthCount = Number(req.body.totalLength-1);
   eam.on('finish', function(){
 
 
-                console.log("ffffffffffffffff")
-
-createDbs(files[m].contentType)
+// console.log(ssID+"aa"+sfID+"aa"+ smId+"aa"+sCount+"aa"+fCount+"aa"+mCount+"aa"+pCount+"aa"+proID)            
+if(req.body.dataFromFrameworkDropdown==="Cuccumber"){
+  console.log("cucucmmber")
+createDbs(files[m].contentType,proID,pCount,mCount,fCount,sCount, smId, sfID, ssID)
+       var wait=parseInt(m*20);
+// setTimeout(function() {
         res.json("Imported Succesffully")
 
 
+ // },wait)
+
+}
+else if(req.body.dataFromFrameworkDropdown==="TestNg"){
+
+  console.log("testng")
+  testNgDbCreation(files[m].contentType,proID,pCount,mCount,fCount,sCount, smId, sfID, ssID)
+}
 
               });
 
 }
 
    
-              //console.log(m+" no loop "+"   "+totalfiles)
-             
-//                                  if(m==totalfiles-1 ){
-                         
-//                       console.log("ouyyyyyyyyyyyyyyyyyyy")
-//          //waitfor()
-//          // db.countInc.insert({"projectID":"pID","moduleID":"mID","featureID":"fID","scriptID":"sID","allCount":1})
-                    
-//                     var wait=parseInt(m*20);
-
-  
-// setTimeout(function() {
- 
-//   createDbs(files[m].contentType)
-//         res.json("Imported Succesffully")
-
-
-//       },wait)
-
-       
- 
-     
-             
-//            }
               //console.log(m+" exectutr loop "+"   "+files[m].filename) 
                         trialcall1(m)
                     }
@@ -243,6 +317,7 @@ createDbs(files[m].contentType)
       
       
             })
+        // },10000)
     
             // resolve(fileInfo);
             
@@ -261,11 +336,241 @@ res.json([]);
 }
     
 });
+var arrayFilesCheck=[]
+var  testNgDbCreation= function(testNgProjectName,proID,pCount,mCount,fCount,sCount, smId, sfID, ssID){
+//console.log("1111111")
+ pCount++
+ pID=proID+pCount
 
+db.projectSelection.insert({"projectSelection":testNgProjectName,"projectId":pID,"framework":"TestNg"})
+//console.log("call ssssssss")
 
+var testNgModuleName=[]
+const searchFilehound = require('filehound');
+    
 
+searchFilehound.create()
+  .paths("./uploads"+"/"+testNgProjectName)
+  .find((err, htmlFiles) => {
+
+   htmlFiles.forEach(function(file) {
+ var testFilesLength=file.length
+//           let data_Array = file.split("\\");
+//           //console.log(data_Array)
+//       let mName = file.split("\\",(data_Array.length-1)).pop()
+// console.log(mName)
+   
+  var LineReader = require('line-by-line');
+ lR = new LineReader(file)
+ 
+    lR.on('error', function (err) {
+    console.log("eeeeeeee")  
+    });
+    
+    lR.on('line', function (line) {
+      //console.log(line.length+"Opqqqqq")
+        //console.log(" line line rr rr rr ")
+        //console.log(count +" "+line)
+       
+         
+        if(line.includes("@Test") == true){
+        
+       
+      if(arrayFilesCheck.includes(file)===false){
+console.log("ttttttttttt222222")
+     
+        arrayFilesCheck.push(file)
+//console.log(arrayFilesCheck)
+// console.log(path.dirname(arrayFilesCheck[arrayFilesCheck.length-1]))
+//testNgScriptsCreation(arrayFilesCheck[arrayFilesCheck.length-1],fID,mId,pID,ssID,sCount)
+        path.basename(arrayFilesCheck[arrayFilesCheck.length-1])
+    console.log(path.basename(arrayFilesCheck[arrayFilesCheck.length-1])) 
+      var testModule=path.dirname(arrayFilesCheck[arrayFilesCheck.length-1]).split('\\').pop()
    
 
+       if(testNgModuleName.includes(testModule)===false){
+        //console.log("33333333")
+         mCount++
+  mId=smId+mCount
+  db.moduleName.insert({"moduleName":testModule,"moduleId":mId,"projectId":pID})
+testNgModuleName.push(path.dirname(arrayFilesCheck[arrayFilesCheck.length-1]).split('\\').pop())
+  //console.log(testNgModuleName) 
+       }
+       else{
+
+mId=smId+mCount
+}
+        //console.log( path.basename(arrayFilesCheck[arrayFilesCheck.length-1],'.java'))
+       fCount++
+    fID=sfID+fCount
+       db.featureName.insert({"featureName":path.basename(arrayFilesCheck[arrayFilesCheck.length-1],'.java'),"featureId":fID,"moduleId":mId,"projectId":pID})
+       
+// setTimeout(function() {
+     
+//console.log("ee11111")
+
+testNgScriptsCreation(arrayFilesCheck[arrayFilesCheck.length-1],fID,mId,pID,ssID,sCount,testFilesLength)
+ // },3000)
+         
+
+         }
+      // console.log("ee22222")  
+//console.log(path.basename(arrayFilesCheck[arrayFilesCheck.length-1]),testNgModuleName)
+  
+      //console.log(line+"yyyyyyyyyyyyyyuuuuuuuuuuuu")
+      }
+   
+
+
+   })
+
+  })
+ })
+
+}//end of testng function
+ 
+
+///////////////
+// const searchFilehound = require('filehound');
+    
+
+// searchFilehound.create()
+//   .paths("./uploads"+"/"+"Tests")
+//   .find((err, htmlFiles) => {
+
+//    htmlFiles.forEach(function(file) {
+ 
+
+//   var LineReader = require('line-by-line');
+//  lR = new LineReader(file)
+ 
+//     lR.on('error', function (err) {
+//     console.log("eeeeeeee")  
+//     });
+    
+//     lR.on('line', function (line) {
+
+// //console.log("eeeeee")
+
+
+// if(line.includes("public void") == true){
+
+// console.log(line)
+
+//   }
+
+ 
+
+// })
+// })
+//  })
+//////////////////////
+var everyTestNgLength=1;
+var scriptCount=null
+ db.countInc.find({},function(err,doc){
+  
+        scriptCount =doc[0].sCount
+       })
+
+
+
+
+
+
+
+ var testNgScriptsCreation=function(scriptPath,fID,mId,pID,ssID,sCount,testFilesLength){
+
+ var scriptPath=__dirname+"/"+scriptPath
+ console.log(scriptPath)
+//console.log("000000000000000000000000")
+   var scriptLineInc=0
+  var Line = require('line-by-line');
+ lScript = new Line(scriptPath)
+ 
+   lScript .on('error', function (err) {
+    console.log("eeeeeeee")  
+    });
+    
+    lScript.on('line', function (line) {
+      //console.log(sCount+"rrrrrrr")
+       
+         
+        if(line.includes("public void") == true){
+         // console.log("wswwwwwwwww")
+          
+          scriptCount++ 
+           //console.log(sCount+"wswwwwwwwww")
+
+  sID=ssID+scriptCount
+
+
+     // tett++
+
+console.log(scriptCount+"tessseettttttttttttttttttttt")
+
+
+
+
+
+        var res = line.split(" ",3);
+
+var fRes=res[2].split("()")
+
+    console.log(fRes[0]) 
+         scriptLineInc++
+    db.testScript.insert({"scriptName":fRes[0],"featureId":fID,"moduleId":mId,"scriptId":sID,"lineNum":scriptLineInc,"projectId":pID})
+//.log(res[2])
+
+
+}
+else{
+   scriptLineInc++
+}
+})
+
+   lScript.on('end', function () {
+      //console.log("eendddddd2222222222222222222222")
+      console.log("lastScript"+arrayFilesCheck.length)
+      // console.log(everyTestNgLength)
+      // console.log(testFilesLength)
+      //console.log("33333333333333333"+forUpdate)
+        if(everyTestNgLength===arrayFilesCheck.length){
+          everyTestNgLength=0;
+          // filesLength=0;
+          arrayFilesCheck=[]
+       // console.log("uuuuuuuuuuuuuuuu"+fID) 
+      //fID,mId,pID
+// db.testScript.find({}).sort({_id:-1},function(err,doc){
+//     //console.log(doc[0])
+//   var uSCount=doc[0].scriptId
+            var fFCount=fID.split("fID")
+            var finalfCount=parseInt(fFCount[1])
+          
+           //console.log("uuuuuu"+fCount) 
+            var fMCount=mId.split("mID")
+             var finalmCount=parseInt(fMCount[1])
+            var fPCount=pID.split("pID")
+             var finalpCount=parseInt(fPCount[1])
+             //console.log(sID)
+            var fSCount=sID.split("sID")
+             var finalsCount=parseInt(fSCount[1])
+ 
+// setTimeout(function() {
+      db.countInc.update({"projectID":"pID"},{$set:{ "fCount":finalfCount,"sCount":finalsCount,
+    "pCount":finalpCount,"mCount":finalmCount}})
+    // },10000)
+    console.log("  end end  Scenario  true "+finalfCount+"L"+finalsCount+"L"+finalpCount+"L"+finalmCount)      
+   }
+everyTestNgLength++
+
+      //console.log("  end end  Scenario  true ") 
+        // All lines are read, file is closed now.
+    });
+
+
+
+
+ }
    
    // trial start 
 
@@ -325,17 +630,28 @@ res.json([]);
   
 //         })
 
+app.get('/searchDir:sD',function(req,res){
+  //console.log("sdddddddDir")
+var sDir=req.params.sD;
+//console.log(sDir)
+var searchPath=__dirname+"/uploads/"+sDir
+if(!fs.existsSync(searchPath)){
+  res.json("Please Wait Files Are Synchronizing")
 
+}
+
+
+})
 app.get('/createFolder:data',function(req,res){
-   console.log("uiiiiiiiiiiiiiii"+req.params.data)
+   //console.log("uiiiiiiiiiiiiiii"+req.params.data)
 var projectName=req.params.data;
   var projectPath=__dirname+"/uploads/"+projectName
 var onlyOnce=1
 if(  onlyOnce===1 && !fs.existsSync(projectPath) ){
     onlyOnce++
     var trialCall = function() {
-        console.log("aaaaaaaaaaaaaaauiiiiiiiiiiiiiii")
-           var  lengthCount =2910;
+        //console.log("aaaaaaaaaaaaaaauiiiiiiiiiiiiiii")
+          // var  lengthCount =2910;
           gfs.files.find({contentType:projectName}).toArray(function (err, files) {
       
         
@@ -351,25 +667,29 @@ if(  onlyOnce===1 && !fs.existsSync(projectPath) ){
                     }else{
                  
                     
-                        console.log("juuuuuuuuueee")
+                        //console.log("juuuuuuuuueee")
                         shell.mkdir('-p',"./"+files[m].metadata)
                       
       
              const stream = gfs.createReadStream(files[m].filename);
       
-          var eam = fs.createWriteStream(__dirname+"/"+files[m].metadata+"/"+files[m].filename);
+          var seam = fs.createWriteStream(__dirname+"/"+files[m].metadata+"/"+files[m].filename);
       
       
-              stream.pipe(eam);
-              // eam.on('finish', function(){
-              //   console.log("ffffffffffffffff")
-              // });
-        
-              m++;
+              stream.pipe(seam);
+             m++;
+if(m==lengthCheck){
+             seam.on('finish', function(){
+                //console.log("ffffffffffffffff")
+                 res.json("Synchronized Done");
+              });
+        }
+            
               console.log(m+" no loop "+"   "+totalfiles) 
         
               //console.log(m+" exectutr loop "+"   "+files[m].filename) 
                         trialcall1(m)
+
                     }
                 }  
                 trialcall1(0)
@@ -389,49 +709,42 @@ if(  onlyOnce===1 && !fs.existsSync(projectPath) ){
     //  console.log("iam project"+ projectName[0]);
     trialCall();
 
-res.json("Synchronized Done");
-}   
+}    
+// else{
 
-
-
-
+//  res.json("Already Folder Exits");
+//  }
  //res.json("Please Wait File Is Synchronizing");
 
  })
   
  
 // creating file names and module and projects
-var aCount = null;
-  var smId=null;
-   var sfID=null;
-   var ssID=null;
-   //var pIDSyn=null;
-    var proID=null;
-    var  pCount=null;
-     var  mCount=null;
-      var  fCount=null;
-       var  sCount=null;
-    var pID=null;
-var moduleCount = 1;
-
-var createDbs = function(folderName) {
-
-  db.countInc.find({},function(err,doc){
-  
-    proID=doc[0].projectID
-   pCount=doc[0].pCount
-     mCount=doc[0].mCount
-       fCount=doc[0].fCount
-         sCount=doc[0].sCount
-   smId=doc[0].moduleID
-      sfID=doc[0].featureID
-        ssID=doc[0].scriptID
-
-//console.log(pID+"uiiiii")
-   
-   })
+var check=[]
+var mId=null;
+ var fID=null;
  
- console.log(ssID+"aa"+sfID+"aa"+ smId+"aa"+sCount+"aa"+fCount+"aa"+mCount+"aa"+pCount+"aa"+proID)
+var createDbs = function(folderName,proID,pCount,mCount,fCount,sCount, smId, sfID, ssID) {
+// 
+//console.log("1111111111111111")
+//  setTimeout(function() {
+//   db.countInc.find({},function(err,doc){
+//     proID=doc[0].projectID
+//    pCount=doc[0].pCount
+//      mCount=doc[0].mCount
+//        fCount=doc[0].fCount
+//          sCount=doc[0].sCount
+//    smId=doc[0].moduleID
+//       sfID=doc[0].featureID
+//         ssID=doc[0].scriptID
+
+// //console.log(pID+"uiiiii")
+   
+//    })
+
+// },6000)
+
+ //console.log(ssID+"aa"+sfID+"aa"+ smId+"aa"+sCount+"aa"+fCount+"aa"+mCount+"aa"+pCount+"aa"+proID)
     moduleCount = 1;
     const Filehound = require('filehound');
     
@@ -441,7 +754,7 @@ Filehound.create()
  // .match('*a*')
   .paths("./uploads"+"/"+folderName)
   .find((err, htmlFiles) => {
-    //console.log("htmlFilessssssssssssssss"+htmlFiles)
+    //console.log("htmlFilessssssssssssssss")
      var filesLength=htmlFiles.length
     // console.log(htmlFiles.length)
     // console.log(htmlFiles[0].length)
@@ -451,104 +764,68 @@ Filehound.create()
  var incFileID=0;
 
 
-  setTimeout(function() {
+  // setTimeout(function() {
  pCount++
  pID=proID+pCount
 
      
   
-  console.log(pID+"qwweerrrrrrrrrrrr")
+  //console.log(pID+"qwweerrrrrrrrrrrr")
 //console.log(pID)
 
-    db.projectSelection.insert({"projectSelection":folderName,"projectId":pID})
- },3000)
+    db.projectSelection.insert({"projectSelection":folderName,"projectId":pID,"framework":"Cuccumber"})
+// },3000)
      //passingID(pID)
  // });
 
 
         
-setTimeout(function() {
+// setTimeout(function() {
     htmlFiles.forEach(function(file) {
-console.log(pID+"ppp")
-   // ff++
-
-    // console.log( sID)
- 
-    
-    let data_Array = file.split("\\");
+      let data_Array = file.split("\\");
      let mName = file.split("\\",(data_Array.length-1)).pop()
+      fCount++
+    fID=sfID+fCount
+if(check.includes(mName)===false){
+ 
+
+  mCount++
+  mId=smId+mCount
+  db.moduleName.insert({"moduleName":mName,"moduleId":mId,"projectId":pID})
+check.push(mName)
+
+}
+else{
+
+mId=smId+mCount
+}
 
 
 
-       createModuleAndFeature(file,data_Array,pID, filesLength);
+ 
+
+       createModuleAndFeature(file,data_Array,pID,filesLength,sCount,ssID,mId,fID);
    
 
 
    });
 
-  },6000)
+ // },6000)
 
  
   });
 }//createDbs ()
 
-//createDbs("projectjavatriall75645")
- // var incId=0;
- //    for (var j =0;j<=5; j++) {
- //     console.log(incId++)
- //     //console.log(j++)
- 
- //   }
-//
-var check=[]
-var mId=null;
-let createModuleAndFeature = function(data,data_Array,pID,filesLength){
- 
-fCount++
 
 
-// sCount++
+let createModuleAndFeature = function(data,data_Array,pID,filesLength,sCount,ssID,mId,fID){
 
-   
-    var fID=sfID+fCount
-    //var sID=ssID+sCount
-     //console.log(mId) 
-   // console.log(aCount) 
-   //console.log( fID)
-    // for module creation 
-   //var cc=0;
-   //console.log(dd)
- // console.log("eeeeeeeeeeeeeeeeee  ");
-   //console.log("wwwwwwwwwwww  "+data_Array);
-   let modulesName = data.split("\\",(data_Array.length-1)).pop() ;
-   //let anotherModuleName = data.split("\\",(data_Array.length-1)).pop() ;
-    console.log("modulesNameeeeeeeeeeeeeeeeee  "+modulesName);
-   
-    // console.log(moduleCount+"kkkjjjjj")
-// if(modulesName){
-
-// }
- 
-
-
-//console.log(check.includes(modulesName))
-if(check.includes(modulesName)===false){
-  mCount++
-  mId=smId+mCount
-  db.moduleName.insert({"moduleName":modulesName,"moduleId":mId,"projectId":pID})
-
-check.push(modulesName)
-}else{
-
-mId=smId+mCount
-}
-   // for feature creation 
     let featureNames = data.split("\\",(data_Array.length)).pop() ;
     let featureNameWitoutExt = featureNames.replace(".feature", "");
     db.featureName.insert({"featureName":featureNameWitoutExt,"featureId":fID,"moduleId":mId,"projectId":pID})
-   console.log("1111111111111111111111111"+filesLength)
+ 
 
-    createTestScript( data,featureNameWitoutExt,fID,mId,pID,filesLength)
+    createTestScript( data,featureNameWitoutExt,fID,mId,pID,filesLength,ssID,sCount)
 
 
 }
@@ -556,19 +833,16 @@ mId=smId+mCount
 
   var forUpdate=1;
   var sID=null;
-let createTestScript = function(file,featureName,fID,mId,pID,filesLength){
-//console.log( "qqqqqqqqqqqqqqqqqq");
+let createTestScript = function(file,featureName,fID,mId,pID,filesLength,ssID,sCount){
+
     let count =1;
   
-    //console.log(file);
+  
     var LineByLineReader = require('line-by-line');
-   // lr = new LineByLineReader("./uploads/projectjavatriall756/Sample1/Features/abc.feature")
-   // lr = new LineByLineReader("uploads/projectjavatriall7564/Sample1/Features/abc.feature")
-    lr = new LineByLineReader(file)
-    //console.log(lr)
+ lr = new LineByLineReader(file)
+ 
     lr.on('error', function (err) {
-        // 'err' contains error object
-        //console.log(" error rr rr rr ")
+      
     });
     
     lr.on('line', function (line) {
@@ -576,6 +850,7 @@ let createTestScript = function(file,featureName,fID,mId,pID,filesLength){
         //console.log(" line line rr rr rr ")
         //console.log(count +" "+line)
         if(line.includes("Scenario") == true){
+          //console.log(sCount+"uuu"+ssID)
 sCount++
  sID=ssID+sCount
           //console.log("oooooooooooooooooooooooooooooooooooooo")
@@ -595,76 +870,41 @@ sCount++
     });
     
     lr.on('end', function () {
-     // console.log("2222222222222222222222"+filesLength)
-     // console.log("33333333333333333"+forUpdate)
+      //console.log("2222222222222222222222"+filesLength)
+      //console.log("33333333333333333"+forUpdate)
         if(forUpdate===filesLength){
-        console.log("uuuuuuuuuuuuuuuu"+fID) 
+          forUpdate=0;
+          // filesLength=0;
+          check=[]
+       // console.log("uuuuuuuuuuuuuuuu"+fID) 
       //fID,mId,pID
 // db.testScript.find({}).sort({_id:-1},function(err,doc){
 //     //console.log(doc[0])
 //   var uSCount=doc[0].scriptId
             var fFCount=fID.split("fID")
-            var fCount=parseInt(fFCount[1])
+            var finalfCount=parseInt(fFCount[1])
           
-           console.log("uuuuuu"+fCount) 
+           //console.log("uuuuuu"+fCount) 
             var fMCount=mId.split("mID")
-             var mCount=parseInt(fMCount[1])
+             var finalmCount=parseInt(fMCount[1])
             var fPCount=pID.split("pID")
-             var pCount=parseInt(fPCount[1])
+             var finalpCount=parseInt(fPCount[1])
+             //console.log(sID)
             var fSCount=sID.split("sID")
-             var sCount=parseInt(fSCount[1])
+             var finalsCount=parseInt(fSCount[1])
  
-
-      db.countInc.update({"projectID":"pID"},{$set:{ "fCount":fCount,"sCount":sCount,
-    "pCount":pCount,"mCount":mCount}})
-            //console.log(pCount+","+mCount+","+fCount+","+sCount)
-//            var fSCount=parseInt(sSPCount[1])
-// //var fSCount=doc.length
-//      //var id=doc[0]._id
-//  db.featureName.find({}).sort({_id:-1},function(err,doc){    
-//     var uFCount=doc[0].featureId
-// //     console.log(uPCount+"ppppppppppppp")
-//     var sFCount=uFCount.split("fID")
-//      var fFCount=parseInt(sFCount[1])
-// // var finalPCount=parseInt(splitUPCount[1])
-//   //var fFCount= doc.length  
-
-//  db.moduleName.find({}).sort({_id:-1},function(err,doc){  
-//     //console.log(typeof(finalPCount)+finalPCount)
-//       var uMCount=doc[0].moduleId
-//           var sMPCount=uMCount.split("mID")
-// var fMCount=parseInt(sMPCount[1])
-// //var fMCount=doc.length
-//  db.projectSelection.find({}).sort({_id:-1},function(err,doc){  
-//   ///var finalPCount=doc.length
-//        var uPCount=doc[0].projectId
-//         var sPCount=uPCount.split("pID")
-//  var finalPCount=parseInt(sPCount[1])
-      
-   
-
-// db.countInc.find({},function(err,doc){
-//  // console.log(doc[0]._id)
-//   var id=doc[0]._id
-  
- // })
-      //console.log(doc.length)
-    // })//projectSelection
-    // })//moduleName
-    // })//featureName     
-    //   })//testScript
-
-       //console.log(cou)
-  
-  //        
+// setTimeout(function() {
+      db.countInc.update({"projectID":"pID"},{$set:{ "fCount":finalfCount,"sCount":finalsCount,
+    "pCount":finalpCount,"mCount":finalmCount}})
+    // },10000)
+    console.log("  end end  Scenario  true "+finalfCount+"L"+finalsCount+"L"+finalpCount+"L"+finalmCount)      
    }
 forUpdate++
 
-      console.log("  end end  Scenario  true ") 
+      //console.log("  end end  Scenario  true ") 
         // All lines are read, file is closed now.
     });
 }
-
 
 
 
@@ -695,7 +935,13 @@ console.log(doc) ;
 // })
 
 
-
+// app.post('/testNg',function(req,res){
+// // db.projectSelection.find({},function(err,doc){
+// // res.json(doc);
+// //console.log("ffffffdoc") ;
+  
+// //})
+// })
 
 
 
