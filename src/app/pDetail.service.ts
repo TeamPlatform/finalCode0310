@@ -22,6 +22,8 @@ export class ProjectDetailServiceComponent {
   .map((response: Response) => <Post[]>response.json());
 
   }
+
+  
      moId(clickModule):Observable<Post[]>{
    //alert("ll00")
    return this.http.get("/getMoId"+clickModule)
@@ -79,4 +81,7 @@ export class ProjectDetailServiceComponent {
           .map((response: Response) => <Post[]>response.json());
 
           }
+
+
+          
 }

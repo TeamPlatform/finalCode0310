@@ -1,119 +1,135 @@
+<body>
+
+    <div class="row" style="font-size: 15px">
+      <div class=" col-lg-10"></div>
+        <div class=" col-sm-1" >
+         Admin
+        </div>
+        <div class="col-sm-1" >
+          <button style="background-color:blue;">SignOut</button>
+        </div>
+      </div>
+    
+
 <div>
-<app-header></app-header>
-
-<br>
-<br>
-<br>
-
- <h1 > Project Detail </h1>
-
-<h3 style="font-size: 25px" > ProjectName:{{projectName}} </h3>
-
-
-
-<div class = "d">   
-<p style="font-size: 20px">    <b>  Modules  </b></p>
-
-
-  
-         
-    <div >
-    <ul  *ngFor="let module of moduleName ; let i = index" >
+  <br>    
+     <h1 > Project Detail </h1>
     
-  <li    (click)="manualtoggle(module.moduleName,i)"  class="glyphicon glyphicon-folder-open" style="font-size: 20px">{{module.moduleName}}
-          
-
-<br><br>
-               
-                  <ul *ngIf="i===ind">
-                <li  *ngFor="let indexvalu of indexvalue" class="glyphicon glyphicon-file">
-         
-                  {{indexvalu.featureName}}  
+    <h3 style="font-size: 25px" > ProjectName:{{projectName}} </h3>
+    
+    
+    <div class="row">
+      <div class="col-md-2" style="background-color:white;">
+          <div class = "d">   
+              <p style="font-size: 20px">    <b>  Modules  </b></p>          
+              
+                
+                       
+                  <div><ul  *ngFor="let module of moduleName ; let i = index" >
+                    
+                  
+                <li    (click)="manualtoggle(module.moduleName,i)"  class="glyphicon glyphicon-folder-open" style="font-size: 20px">{{module.moduleName}}
                         
-       <br> <br>             
-                </li>
+              
+              <br><br>
+                             
+                                <ul *ngIf="i===ind">
+                              <li  *ngFor="let indexvalu of indexvalue" class="glyphicon glyphicon-file">
+                       
+                                {{indexvalu.featureName}}  
+                                      
+                     <br> <br>             
+                              </li>
+                            </ul>
+              
+              
+              
+              </li>
               </ul>
-
-
-
-</li>
-</ul>
-</div>
-</div>
-
-
-
-
-<div class="a" >
- <table style="height: 444px">
-     <tr style="position: absolute;" >
-       <th (click)="changeShowStatus()"  class="active" style="width: 2000px;text-align: center;font-size: 20px;" [style.background-color] = "show==true ? 'green' : 'cyan'"  > Test Planning</th>
-
-     
-     <th style="width: 1828px;text-align: center;font-size: 20px;;" (click)="showTestExecution(projectName)" class="active" [style.background-color] = "testExecution==true ? 'green' : 'cyan'" >Test Execution</th>
-
-
-
-       <th style="text-align: center;font-size: 20px" >Report</th>
-        </tr>
-        <td *ngIf="show==true" >
-          <div style="margin-top: -303px;position: absolute;">
-            <table style="width: 1215px;">
-              <th (click)="goCreateModule()" style="text-align: center;
-              font-size: 15px" [style.background-color] = "displayModule==true ? 'lightblue' : 'cyan'">CreateModule</th>
+              </div>
+              </div>
+      </div>  
+      <div class="col-md-10" style="background-color:white;">
+          <div class="a" >
+              <table style="height: 444px">
+                  <tr style="position: absolute;margin-left: -15px" >
+                    <th (click)="changeShowStatus()"  class="active" style="width: 2000px;text-align: center;font-size: 20px;" [style.background-color] = "show==true ? 'green' : 'white'"  > Test Planning</th>
+             
+                  
+                  <th style="width: 1828px;text-align: center;font-size: 20px;;" (click)="showTestExecution(projectName)" class="active" [style.background-color] = "testExecution==true ? 'green' : 'white'" >Test Execution</th>
+             
+             
+             
+                    <th style="text-align: center;font-size: 20px" >Report</th>
+                     </tr>
+                     <td *ngIf="show==true" >
+                       <div style="margin-top: -175px;position: absolute;margin-left: -15px;">
+                         <table style="width: 1215px;">
+                           <th (click)="goCreateModule()" style="text-align: center;
+                           font-size: 15px" [style.background-color] = "displayModule==true ? 'lightblue' : 'white'">CreateModule</th>
+                           
+               
+                           <th (click)="goCreateFeature()" style="text-align: center;font-size: 15px" [style.background-color] = "displayFeature==true ? 'lightblue' : 'cyan'">CreateFeature</th>
+                           
+               
+                           <th (click)="goImport()" style="text-align: center;font-size: 15px" [style.background-color] = "displayImport==true ? 'lightblue' : 'cyan'">ImportScript</th>
+                           
+                         </table>
+             
+                         <app-module *ngIf="displayModule==true"></app-module>
+                     <app-feature *ngIf="displayFeature==true"></app-feature>
+                     <app-import *ngIf="displayImport==true"></app-import>
+                       </div>
+                       
+                   
+                     </td>
+                 
+                  
+                  
+                  
+                  <div style="width: 1px;height: 444px">
+                  <tr style="height: 444px">
+                     <td *ngIf="testExecution==true">
+                         <div style="margin-top: -174px;position: absolute;">
+                             <table style="width: 100%;margin-left: -15px">
+                                 <th (click)="mobile()" style="text-align: center;font-size: 15px;" [style.background-color] = "mo==true ? 'lightblue' : 'white'">Mobile</th>         
+                      
+                                 <th (click)="execution()" style="text-align: center;font-size: 15px;" [style.background-color] = "execute==true ? 'lightblue' : 'white'">Execution</th>
+                                                                
+                               </table>
+                               <td *ngIf="mo==true"><app-cap></app-cap></td>
+              <td *ngIf="execute==true"><app-test></app-test> </td>
+                          </div>
+                      </td>
+                 
+             
               
-  
-              <th (click)="goCreateFeature()" style="text-align: center;font-size: 15px" [style.background-color] = "displayFeature==true ? 'lightblue' : 'cyan'">CreateFeature</th>
+             
               
-  
-              <th (click)="goImport()" style="text-align: center;font-size: 15px" [style.background-color] = "displayImport==true ? 'lightblue' : 'cyan'">ImportScript</th>
+             
               
-            </table>
-
-            <app-module *ngIf="displayModule==true"></app-module>
-        <app-feature *ngIf="displayFeature==true"></app-feature>
-        <app-import *ngIf="displayImport==true"></app-import>
-          </div>
-          
-      
-        </td>
-    
-     
-     
-     
-     <div style="width: 1px;height: 700px">
-     <tr style="height: 500px">
-        <td *ngIf="testExecution==true">
-            <div style="margin-top: -174px;position: absolute;">
-                <table style="width: 1213px;margin-top: -29px">
-                    <th (click)="mobile()" style="text-align: center;font-size: 15px;" [style.background-color] = "mo==true ? 'lightblue' : 'cyan'">Mobile</th>         
-         
-                    <th (click)="execution()" style="text-align: center;font-size: 15px;" [style.background-color] = "execute==true ? 'lightblue' : 'cyan'">Execution</th>
-                                                   
-                  </table>
+             </tr>
+             
+             
              </div>
-         </td>
+             <td *ngIf="valid==true" style="text-align:center;font-size: 15px">
+                      {{importMessage}}
+                  </td>
+                </table>
+               
+             
+             
+                  
+             
+             </div>
+             <router-outlet></router-outlet>
+         </div>
+      </div>  
+    </div>
     
-
- 
-
- 
-
- <td *ngIf="mo==true"><app-cap></app-cap></td>
- <td *ngIf="execute==true"><app-test></app-test> </td>
-</tr>
-
-
-</div>
-<td *ngIf="valid==true" style="text-align:center;font-size: 15px">
-         {{importMessage}}
-     </td>
-   </table>
+    
+    
+    
+    
   
-
-
-     
-
-</div>
-<router-outlet></router-outlet>  
-</div>
+</body>

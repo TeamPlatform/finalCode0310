@@ -22,16 +22,31 @@ export class TestExecutionServiceComponent {
   .map((response:Response)=><Post[]>response.json());
 
   }
-
+  allDetails:Object={};
  
    testScriptDetails(ss):Observable<Post[]>{
-  //alert("ll00")
+  // alert("ll00")
    return this.http.get("/getTestScriptDetails"+ss)
    
   .map((response:Response)=><Post[]>response.json());
   
 
   } 
+  
+  projectDetails(p): Observable<Post[]>{
+    //alert("00"+p)
+       return this.http.get("/getModuleNames"+p)
+      .map((response: Response) => <Post[]>response.json());
+    
+      }
+      // projectIDS (p): Observable<Post[]>{
+      //   alert("00"+p)
+      //      return this.http.get("/projectIds"+p)
+      //     .map((response: Response) => <Post[]>response.json());
+        
+      //     }
+  
+      
 
 
 
@@ -51,12 +66,7 @@ export class TestExecutionServiceComponent {
           .map((response: Response) => <Post[]>response.json());
       }
 
-  projectDetails(): Observable<Post[]>{
-    // alert("ll00")
-       return this.http.get("/getModuleName")
-      .map((response: Response) => <Post[]>response.json());
-    
-      }
+  
     
         childModuleDetails(index): Observable<Post[]> {
     
@@ -68,6 +78,16 @@ export class TestExecutionServiceComponent {
        .map((response: Response) => <Post[]>response.json());
        // console.log(response.json())
     
+      }
+
+      totadeytails(vj){
+        var  allDetails=[]
+       allDetails=vj;
+        console.log(allDetails);
+      }
+
+      allrahul(){
+        return this.allDetails;
       }
     
       childModuleDetails1(): Observable<Post[]> {

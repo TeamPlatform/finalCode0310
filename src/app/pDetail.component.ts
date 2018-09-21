@@ -17,7 +17,7 @@ import {SelectionComponent} from './projectSelection.component';
 
       providers: [ProjectDetailServiceComponent]   
 
-})//componrnt  closing
+})//componrnt  
 
 export class ProjectDetailComponent implements OnInit  {
    moduleChild:Post[];

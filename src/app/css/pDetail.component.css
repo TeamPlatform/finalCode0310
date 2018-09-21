@@ -12,32 +12,37 @@ h1 {
     float: center;
   padding : 20px;
       }
+
+      
       div.g {
     float: right;
       }
     
-        div.d {
+
+
+
+/* 
+      div.d {
           position: absolute;
           left :0%;
-          width: 188px;
-          height: 800px;
-          border : 3px solid black;
-        }
-        div.a {
+          width: 20%;
+          height: 450px;
+        } */
+        /* div.a {
             position: relative;
-            left : 187px;
-            width: 1219px;
-            height: 800px;
+            left : 273px;
+            width: 80%;
+            height: 450px;
             border: 3px solid black;
             
-        }
+        } */
      /*   th.clicked:active{
     background-color: yellow;
 
         }*/
       
         body {
-            background-color: cyan;
+              width: 100%;
              }
 
         table {
@@ -62,7 +67,7 @@ h1 {
           }
 
  .button {
-    background-color: #4CAF50; / Green /
+    background-color: #4CAF50; 
     border: none;
     color: white;
     padding: 13px 20px;

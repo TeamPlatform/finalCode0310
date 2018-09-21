@@ -1,0 +1,102 @@
+
+        <style type="text/css">
+
+            #main {
+               width: 100%;
+               font-size: 20px;
+            }
+           
+           </style>
+                  
+           <body  id="main">
+                       
+             
+               <div>                        
+                   <span>
+                       Module :
+                       <select [(ngModel)]="moduleId"  >
+                           <option *ngFor = "let var_moduleName of moduleNames" value="{{var_moduleName.moduleId}}">{{var_moduleName.moduleName}}</option>
+                           
+                       </select>
+                   </span>
+                   <span>
+                       Feature :
+                       <select [(ngModel)]="featureId"  >
+                            <option *ngFor = "let var2_featureName of featureNames" value="{{var2_featureName.featureId}}">{{var2_featureName.featureName}}</option>                    
+                       </select>
+                   </span>  
+                   <button (click)=search(moduleId,featureId)>Search</button>
+               </div>
+            <br><br>  
+            
+            
+               <div style="margin-left: -15px;">
+                   <table class="table table-condensed" style="width:75%;border: dashed;">
+                     <thead>
+                       <tr *ngIf="srch==true">
+                               <th></th>
+                               <th >Module Name</th>
+                               <th style="width: 240px">Feature Name </th>
+                               <th >Script Name</th>
+                               
+                       </tr>
+                     </thead>
+                     <tbody class="testdata">
+                           <tr  *ngFor = "let test of testScriptsData; let i = index;" >   
+                                   <td *ngIf="srch==true" ><input type="checkbox" (click)=row(i,test)></td>             
+                                   <td *ngIf="srch==true" style="width: 135px">{{test.moduleName}}</td>
+                                   <td *ngIf="srch==true">{{test.featureName}}</td>
+                                   <td *ngIf="srch==true" >{{test.scriptName}}</td>
+                                   
+                               </tr>
+                     </tbody>
+                      
+                   </table>           
+           </div>
+       
+           <div >       
+              <table>
+                      <tbody >
+                          <tr *ngFor = "let dd of vjData;let i = index;">
+                               <td ><input type="checkbox" (click)=ro(i,dd)></td>
+                               <td>{{dd.moduleName}}</td>
+                               <td>{{dd.featureName}}</td>
+                               <td>{{dd.scriptName}}</td>
+                          </tr>                   
+                      </tbody>
+               </table>
+                  <button (click)=run(moduleName,featureName,lineNum,projectSelection)>Run</button>         
+          </div>
+            
+           
+       </body>
+
+//////////////////////////////////////////////////////////////////
+select {
+    width: 150px;
+}
+
+/* .span1 {
+    margin-left: 100px;
+} */
+
+.span2 {
+    margin-left: 100px;
+}
+
+button {
+      width: 110px;
+}
+
+thead, tbody { display: block; }
+
+tbody {
+    width: 100%;
+    height: 118px;       /* Just for the demo          */
+    overflow-y: auto;    /* Trigger vertical scroll    */
+    overflow-x: hidden;  /* Hide the horizontal scroll */
+}
+
+
+
+//////////////////////////////////////////////////////////////////

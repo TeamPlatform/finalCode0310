@@ -14,7 +14,9 @@
     <label for="sel1">
     Select Project:
   </label>
+ 
   <select   [(ngModel)]="selectedDropdown" (change)="dropdownData($event.target.value)" >
+    <option></option>
     <option *ngFor="let data of datas">{{data.projectSelection}}</option>
  </select>
 

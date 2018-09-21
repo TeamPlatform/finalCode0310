@@ -1,0 +1,285 @@
+import { Component, OnInit} from '@angular/core';
+import { Http,Response } from '@angular/http';
+//import {ProjectSeServiceComponent} from './projectSelection.service';
+
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import { URLSearchParams } from '@angular/http';
+
+import { TestExecutionServiceComponent  } from './testExecution.service';
+import {Post} from './post';
+
+@Component({
+selector: 'app-test',
+
+templateUrl:  './html/testExecution.html',
+  styleUrls: ['./css/testExecution.css'],
+  providers : [ TestExecutionServiceComponent ]
+
+
+       }) // componrnt  closing
+export class TestExecutionComponent implements OnInit  {
+     
+      runn = [];
+     
+       moduleNames = [] ;
+       featureNames = [];
+       typeArray = [];
+       datas = [] ;
+     //  shivu= [];
+       priorityArray = [];
+       testScriptsData:Post[];
+       projectIds:Post[]
+      // testScript = [];
+       demoArrayaData: String = "";
+       moduleId:string;
+       moduleName: string;
+       featureId:string;
+       featureName:string;
+       lineNum:string;
+       scriptName:string;
+      projectId:string;
+       srch:boolean;
+       test:any;
+       var2_featureName:any;
+       projectName:string;
+       vjData:any=[];
+       mData:any=[];
+      
+      check:any;
+       a:any; 
+       $http: any;
+      c:Object={};
+
+  projectSelection: any;
+  index2: any;
+  mName: any;
+  fName: any;
+  sName: any;
+  lNum: any;
+  pSelection: any;
+  mod=[];
+  feat=[];
+  lin=[];
+  scri=[];
+  pro=[];
+  moduleDetails=[];
+  featureDetails=[];
+  featureData: any[];
+  fea:any[];
+  mo:any[];
+  lineNumDetails=[];
+  lineData: any[];
+  scripttData: any[];
+  scriptDetails=[];
+  aMN:string;
+  aFN:string;
+  ind:number;
+  indU:number;
+
+  constructor( private data: TestExecutionServiceComponent , private http:Http) {
+    this.srch=false;      
+  }
+  
+  ngOnInit() {
+    
+    let dataFromProjectSelectionDropdown=sessionStorage.getItem('key');
+    this.projectName=dataFromProjectSelectionDropdown;
+    this.data.projectDetails(dataFromProjectSelectionDropdown).subscribe(Data => this.moduleNames = Data) ;
+   
+    this.data.childModuleDetails1().subscribe(Data => this.featureNames = Data ) ;
+    this.data.typeDetails().subscribe(Data => this.typeArray = Data) ;
+    this.data.priorityDetails().subscribe(Data => this.priorityArray = Data) ;
+    // this.data.testScriptDetails().subscribe(result => this.testScriptsData=result);
+    // this.data.showDetails().subscribe(Data => this.testScript = Data)
+     this.data.getProjectSelectionDetails().subscribe(Data =>this.datas=Data);
+    
+
+          
+    this.demoArrayaData = this.moduleNames[1];
+   // alert(dataFromProjectSelectionDropdown);
+    //this.data.projectIDS(dataFromProjectSelectionDropdown).subscribe(Data => this.projectIds = Data) ;
+
+  }
+
+  manualtoggle(clickModule,index){
+    this.aMN=clickModule;
+    this.ind=index;
+  alert(typeof(index)+index) 
+   // console.log(this.mData) 
+  }
+
+  manualtoggle2(clickFeature,index){
+    this.aFN=clickFeature;
+    this.indU=index;
+  alert(index+typeof(index))    
+  }
+
+  
+
+  lineNu:any
+  
+ search(moduleId,featureId) 
+ {
+   //.log(projectId);
+   //console.log(moduleId);
+   //console.log(featureId);
+   if( moduleId==undefined || featureId==undefined || this.projectName==undefined)    
+   {
+     alert("Please select Module and Feature")
+
+   }
+   else
+   {   this.srch=true;
+   //alert(moduleId+","+featureId) ;
+   
+   this.lineNu =moduleId+','+featureId+','+this.projectName ;
+   //console.log(this.lineNu);
+   
+   
+   this.data.testScriptDetails(this.lineNu).subscribe(result =>{this.testScriptsData=result;});
+    }
+ }
+
+index1:any;
+vj=[];
+scriptData=[];
+lineNumb:any;
+finalFeature=[];
+finalScript=[];
+row(index,test) 
+{
+  this.index1=index
+  //alert(this.index1);
+  this.moduleName=test.moduleName;
+  this.featureName=test.featureName;
+  this.lineNum=test.lineNum;
+  this.scriptName=test.scriptName;
+  this.projectSelection=test.projectSelection; 
+  
+    var mobj:Object={}; 
+  
+    mobj["moduleName"]=this.moduleName;
+   
+    this.moduleDetails.push(mobj);
+    //this.mData=this.moduleDetails;
+    for ( var i=0, len=this.moduleDetails.length; i < len; i++ )
+    mobj[this.moduleDetails[i]['featureName']] = this.moduleDetails[i];
+    //alert("MMMMMMMMMMMOOOOOOOOOOO")
+    this.moduleDetails = new Array();
+    this.moduleDetails.push(mobj);
+    //console.log(this.moduleDetails);
+    this.mo=this.moduleDetails;
+    //console.log(this.mo);
+    
+    
+    var featu:Object={};
+
+    featu["featureName"]=this.featureName;
+    featu["scriptName"]=this.scriptName;
+    //var cc=[]
+    
+    //console.log(this.featureDetails.some(e=>e.featureName===this.featureName))
+     if(this.featureDetails.some(e=>e.featureName===this.featureName)===false && this.featureDetails.some(e=>e.scriptName===this.scriptName)===false ||this.featureDetails.some(e=>e.featureName===this.featureName)===false && this.featureDetails.some(e=>e.scriptName===this.scriptName)===false ){
+      //console.log(cc)
+    this.featureDetails.push(featu);
+    console.log(this.featureDetails)
+  //  for ( var i=0; i<=this.featureDetails.length-1; i++ ) {
+    this.finalFeature=this.featureDetails
+   // console.log("hhhhhhh")
+    //console.log(this.finalFeature)
+    this.finalScript=this.featureDetails
+    console.log(this.finalScript)
+      //console.log(typeof(this.featureDetails[i].featureName)+this.featureDetails[i].featureName)
+      // if(){
+      //   alert("equal")
+      // }
+    //}
+  
+  }
+    //console.log(typeof(featu["featureName"])+featu["featureName"]);
+    //console.log(this.featureDetails.length)
+   //console.log(this.featureDetails)
+    //console.log(typeof(this.featureDetails[i].featureName)+this.featureDetails[i].featureName)
+    // for ( var i=0; i<=this.featureDetails.length-1; i++ ) {
+    //   //console.log(typeof(this.featureDetails[i].featureName)+this.featureDetails[i].featureName)
+    //   if(featu["featureName"] == this.featureDetails[i].featureName){
+    //     alert("equal")
+
+    //     var obj:Object={};
+
+    //     obj["scriptName"]=this.scriptName;
+    //     console.log(obj);
+    //     this.scriptDetails.push(obj);
+    //     this.scripttData=this.scriptDetails;
+    //     console.log(this.scripttData)
+    // //    console.log(this.featureDetails)
+    //   // this.featureDetails.splice(i,1)
+    //   }    
+      
+    //  }
+    
+  
+
+}
+
+
+
+
+
+
+
+vj2=[];
+ro(index,dd){
+this.index2=index;
+this.mName=dd.moduleName;
+this.fName=dd.featureName;
+this.sName=dd.scriptName;
+this.lNum=dd.lineNum;
+this.pSelection=dd.projectSelection;
+
+var obj:Object={};
+
+
+  obj["moduleName"]=this.mName;
+  obj["featureName"]=this.fName;
+  obj["scriptName"]=this.sName;
+  obj["lineNum"]=this.lNum;
+  obj["projectSelection"]=this.pSelection;
+ // console.log(obj);
+  this.vj2.push(obj);
+  //console.log(this.vj2)
+  this.testScriptsData=this.vj2;
+  this.vjData.splice(this.index2,1);
+}
+
+ run(moduleName,featureName,lineNum,projectSelection) 
+
+ { 
+      alert("Run");
+      alert("moduleName=>"+moduleName);
+      alert("featureName=>"+featureName);
+      alert("lineNum=>"+lineNum);
+      alert("projectSelection=>"+projectSelection);
+      // this.runn.push( // {
+      //  "moduleId":moduleId,
+      //  "featureId":featureId,
+      //  "lineNum":this.lineNumb,
+      //  "projectname":projectId,  
+      //  })
+      
+      //   console.log(this.runn);  
+    
+        var lineNumm = this.lineNum;
+       // console.log(moduleName+','+featureName+','+lineNumm+','+projectSelection);  
+       var c = this.vjData;
+     
+    
+       
+      return  this.http.post('/testScript',c,{})
+       .subscribe(result =>{console.log(result)
+        });
+    
+  }
+
+}
