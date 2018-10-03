@@ -1276,7 +1276,7 @@ app.get('/selectionProject',function(req,res){
   
   })
   //})
-<<<<<<< HEAD
+//<<<<<<< HEAD
   var featureDuplicate=[]
   app.post('/testScript',function(req,res)
   {
@@ -1473,239 +1473,239 @@ console.log(addString)
 //   var finalExecution = function( requiredPath){
 //   console.log(__dirname)
 //   console.log(" final executryeriuyteriu req "+requiredPath)
-=======
+//=======
   
- app.post('/testScript',function(req,res)
-{
+//  app.post('/testScript',function(req,res)
+// {
 
-console.log("llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll")
-//console.log(req.body)
-// for(var i=0;i<1;i++){
-// // i is module length
-// //console.log(req.body[i].moduleName)
-// //console.log(req.body[i].projectSelection)
-// for(var j=0;j<=req.body[i].featureName.length-1;j++){
-// // j is feature length
-// //console.log(req.body[i].featureName[j].featureName)
-// for(var k=0;k<=req.body[i].featureName[j].scriptName.length-1;k++){
-// // j is feature length
+// console.log("llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll")
 // //console.log(req.body)
- checkxml(req.body) 
-// }
-// }
+// // for(var i=0;i<1;i++){
+// // // i is module length
+// // //console.log(req.body[i].moduleName)
+// // //console.log(req.body[i].projectSelection)
+// // for(var j=0;j<=req.body[i].featureName.length-1;j++){
+// // // j is feature length
+// // //console.log(req.body[i].featureName[j].featureName)
+// // for(var k=0;k<=req.body[i].featureName[j].scriptName.length-1;k++){
+// // // j is feature length
+// // //console.log(req.body)
+//  checkxml(req.body) 
+// // }
+// // }
 
 
 
-// }
+// // }
 
 
 
-// dbsNames (moduleName,featureName,lineNum,projectSelection)
-})
+// // dbsNames (moduleName,featureName,lineNum,projectSelection)
+// })
 
 
 
-// var checkxml = function(projectFolder,featureName,lineNum,moduleName){
-var checkxml = function(wholeData){ 
-console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
-var ps=wholeData[0].projectSelection
-const Filehound = require('filehound');
-Filehound.create()
-.ext('xml')
-//.match(b)
-.paths( "./uploads/"+ps)
-.find((err, htmlFiles) => {
+// // var checkxml = function(projectFolder,featureName,lineNum,moduleName){
+// var checkxml = function(wholeData){ 
+// console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
+// var ps=wholeData[0].projectSelection
+// const Filehound = require('filehound');
+// Filehound.create()
+// .ext('xml')
+// //.match(b)
+// .paths( "./uploads/"+ps)
+// .find((err, htmlFiles) => {
 
-htmlFiles.forEach(function(file) {
+// htmlFiles.forEach(function(file) {
 
-var LineByLineReader = require('line-by-line');
-lr = new LineByLineReader(file)
-//console.log(lr)
-lr.on('error', function (err) 
-{
-// 'err' contains error object
-//console.log(" error rr rr rr ")
-});
+// var LineByLineReader = require('line-by-line');
+// lr = new LineByLineReader(file)
+// //console.log(lr)
+// lr.on('error', function (err) 
+// {
+// // 'err' contains error object
+// //console.log(" error rr rr rr ")
+// });
 
-lr.on('line', function (line) 
-{
-//console.log(line)
-//console.log(line)
+// lr.on('line', function (line) 
+// {
+// //console.log(line)
+// //console.log(line)
 
-if(line.includes("<suiteXmlFile>") === true)
-{ 
-  //console.log(line)
-var res = (line.replace("<suiteXmlFile>",'').replace("</suiteXmlFile>",'')); 
-//console.log(res)
-let pomFilePath = ( file.split("").reverse().join("")).substring(file.indexOf("\\")+1).split("").reverse().join("");
-//console.log(pomFilePath)
-//console.log("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
-Filehound.create()
-.ext('xml')
-.match(res)
-.paths( "./uploads/"+ps)
-.find((err, htmlFiles1) =>
-{
-// testRunnerCall(htmlFiles1[0].split("\\").pop() ,projectFolder,pomFilePath,featureName,lineNum,moduleName)
-// console.log(htmlFiles1)
-// console.log(htmlFiles1[0])
-console.log("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
+// if(line.includes("<suiteXmlFile>") === true)
+// { 
+//   //console.log(line)
+// var res = (line.replace("<suiteXmlFile>",'').replace("</suiteXmlFile>",'')); 
+// //console.log(res)
+// let pomFilePath = ( file.split("").reverse().join("")).substring(file.indexOf("\\")+1).split("").reverse().join("");
+// //console.log(pomFilePath)
+// //console.log("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
+// Filehound.create()
+// .ext('xml')
+// .match(res)
+// .paths( "./uploads/"+ps)
+// .find((err, htmlFiles1) =>
+// {
+// // testRunnerCall(htmlFiles1[0].split("\\").pop() ,projectFolder,pomFilePath,featureName,lineNum,moduleName)
+// // console.log(htmlFiles1)
+// // console.log(htmlFiles1[0])
+// console.log("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
  
-console.log(wholeData)
-testRunnerCall(htmlFiles1[0].split("\\").pop() ,ps,pomFilePath,wholeData)
+// console.log(wholeData)
+// testRunnerCall(htmlFiles1[0].split("\\").pop() ,ps,pomFilePath,wholeData)
 
 
-}) 
-}
-});
+// }) 
+// }
+// });
 
-lr.on('end', function () {
-// console.log(" end end Scenario true ")
-// All lines are read, file is closed now.
-});
+// lr.on('end', function () {
+// // console.log(" end end Scenario true ")
+// // All lines are read, file is closed now.
+// });
 
-})
-})
-// } // checkxml
-}
-
-// var testRunnerCall = function(runnerName,path,pomFilePath,featureName,lineNum,moduleName){
-
-var testRunnerCall = function(runnerName,ps,pomFilePath,wholeData){ 
-console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
-console.log(wholeData);
-//console.log(sn); 
-//var sampleData = data;
-//var lineString = ''; 
-
-///data length
-// for(k=0;k<1;k++){
-// var lineString1 = "\""+mn+"/"+fn+".feature:"+ln+"\""+",";
-// console.log(lineString1)
-// lineString = lineString.concat(lineString1)
-// console.log(lineString1)
-//console.log(runnerName)
-// console.log(lineString);
-// var abc=data[k].lineNum;
-// console.log(abc)
-//}
-const Filehound = require('filehound');
-Filehound.create()
-.ext('xml')
-.match(runnerName) // .match('*TestRunnerNew.java*')
-.paths("./uploads/"+ps)
-
-.find((err, htmlFiles) => {
-
-if (err) return console.error("handle err", err);
-console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz")
-console.log(wholeData);
-//console.log(data)
-// console.log(path)
-// // console.log(featureName+'.'+lineNum);
-
-// lineStringObj=[];
-// obj={};
-
-// obj['moduleName']= moduleName;
-// obj['featureName']=featureName;
-// obj['lineNum']= lineNum;
-// lineStringObj.push(obj);
-// console.log(lineStringObj);
-
-
-
-var fs = require('fs');
-
-
- //console.log(htmlFiles); 
-var testPath = "./"+htmlFiles; 
-//console.log(testPath+"testpathhhhhh");
-
-var data = fs.readFileSync(testPath).toString().split("\n");
-//console.log(data)
- //console.log(data.length)
-for(i=0;i<data.length;i++){
- 
-if( data[i].includes("<test")=== true) {
-   console.log("oooooooooooooooo")
-// for(l = 0 ;l<=data.length;l++){
-// var lineString = "\""+moduleName+"/"+featureName[l]+".feature:4"+"\"";
+// })
+// })
+// // } // checkxml
 // }
 
-// var lineString = "\""+sampleData[0].moduleName+"/"+sampleData[0].featureName+".feature:"+sampleData[0].lineNum+"\"";
-data[i] = "<test name="+'"'+wholeData[0].featureName[0].featureName+'"'+">";
-// console.log(true);
-}
- if((data[i].includes("methods>")=== true)){
-   console.log("uuuuuuuuuuuuuuu")
-   for(var s=0;s<2;s++){
-   console.log(wholeData[0].featureName[0].scriptName[s].scriptName)
+// // var testRunnerCall = function(runnerName,path,pomFilePath,featureName,lineNum,moduleName){
+
+// var testRunnerCall = function(runnerName,ps,pomFilePath,wholeData){ 
+// console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+// console.log(wholeData);
+// //console.log(sn); 
+// //var sampleData = data;
+// //var lineString = ''; 
+
+// ///data length
+// // for(k=0;k<1;k++){
+// // var lineString1 = "\""+mn+"/"+fn+".feature:"+ln+"\""+",";
+// // console.log(lineString1)
+// // lineString = lineString.concat(lineString1)
+// // console.log(lineString1)
+// //console.log(runnerName)
+// // console.log(lineString);
+// // var abc=data[k].lineNum;
+// // console.log(abc)
+// //}
+// const Filehound = require('filehound');
+// Filehound.create()
+// .ext('xml')
+// .match(runnerName) // .match('*TestRunnerNew.java*')
+// .paths("./uploads/"+ps)
+
+// .find((err, htmlFiles) => {
+
+// if (err) return console.error("handle err", err);
+// console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz")
+// console.log(wholeData);
+// //console.log(data)
+// // console.log(path)
+// // // console.log(featureName+'.'+lineNum);
+
+// // lineStringObj=[];
+// // obj={};
+
+// // obj['moduleName']= moduleName;
+// // obj['featureName']=featureName;
+// // obj['lineNum']= lineNum;
+// // lineStringObj.push(obj);
+// // console.log(lineStringObj);
+
+
+
+// var fs = require('fs');
+
+
+//  //console.log(htmlFiles); 
+// var testPath = "./"+htmlFiles; 
+// //console.log(testPath+"testpathhhhhh");
+
+// var data = fs.readFileSync(testPath).toString().split("\n");
+// //console.log(data)
+//  //console.log(data.length)
+// for(i=0;i<data.length;i++){
  
-  }
+// if( data[i].includes("<test")=== true) {
+//    console.log("oooooooooooooooo")
+// // for(l = 0 ;l<=data.length;l++){
+// // var lineString = "\""+moduleName+"/"+featureName[l]+".feature:4"+"\"";
+// // }
 
-  }
-
-
-}
-
-data = data.join("\n");
-//var yy="jjj"
-fs.writeFile(testPath,data,function(err)
-{
-if (err) return console.log(err);
-// console.log(text);
-console.log("Replaced");
-
-//execTestRunner( ps,pomFilePath)
-}) 
-
-})
-}//
+// // var lineString = "\""+sampleData[0].moduleName+"/"+sampleData[0].featureName+".feature:"+sampleData[0].lineNum+"\"";
+// data[i] = "<test name="+'"'+wholeData[0].featureName[0].featureName+'"'+">";
+// // console.log(true);
 // }
-var execTestRunner = function( projectName,pomFilePath){
-// var pomFilePath = "uploads\\projectjava12\\Sample1";
-const Filehound = require('filehound');
-console.log(" i am ready for executoooooo projectName "+projectName)
-console.log(__dirname)
+//  if((data[i].includes("methods>")=== true)){
+//    console.log("uuuuuuuuuuuuuuu")
+//    for(var s=0;s<2;s++){
+//    console.log(wholeData[0].featureName[0].scriptName[s].scriptName)
+ 
+//   }
 
-var fs = require('fs'); 
-var requiredPath = __dirname+"\\trial.bat"; 
-// var requiredPath = "/"+projectName;
-// var requiredPath = _dirname+"\\uploads"+"\\"+projectName+"\\trial.bat"; 
-
-var stream = fs.createWriteStream(requiredPath);
-
-stream.write("@echo off\n");
-stream.write("cd .\\"+pomFilePath+" && mvn clean install");
-console.log(pomFilePath + " fini pomFilePath ")
-finalExecution( requiredPath) 
-
-} 
+//   }
 
 
-var finalExecution = function( requiredPath){
-console.log(__dirname)
-console.log(" final executryeriuyteriu req "+requiredPath)
-// var dir= "C:\\Users\\user\\Desktop\\Latest_projects\\sample_projects\\code13Aug\\uploads\\anyname\\trial.bat" ; 
+// }
 
-// const nodeCmd = require('node-cmd');
-//nodeCmd.run(dir, (err, data, stderr) => console.log(data));
-//__dirname+"\\uploads\\anyname\\"+"trial.bat"
-// "C:\\Users\\user\\Desktop\\Latest_projects\\sample_projects\\code02818demo\\uploads\\projectjava12\\trial.bat"
-// "C:\\Users\\user\\Desktop\\Latest_projects\\sample_projects\\code13Aug\\uploads\\anyname\\trial.bat" ; 
-// require('child_process').exec 
-// //__dirname+"/trial.bat"
-require('child_process').exec(requiredPath, (err, stdout, stderr) => {
-if (err) throw err;
+// data = data.join("\n");
+// //var yy="jjj"
+// fs.writeFile(testPath,data,function(err)
+// {
+// if (err) return console.log(err);
+// // console.log(text);
+// console.log("Replaced");
 
-console.log(stdout, stderr); 
-}); 
-}
+// //execTestRunner( ps,pomFilePath)
+// }) 
+
+// })
+// }//
+// // }
+// var execTestRunner = function( projectName,pomFilePath){
+// // var pomFilePath = "uploads\\projectjava12\\Sample1";
+// const Filehound = require('filehound');
+// console.log(" i am ready for executoooooo projectName "+projectName)
+// console.log(__dirname)
+
+// var fs = require('fs'); 
+// var requiredPath = __dirname+"\\trial.bat"; 
+// // var requiredPath = "/"+projectName;
+// // var requiredPath = _dirname+"\\uploads"+"\\"+projectName+"\\trial.bat"; 
+
+// var stream = fs.createWriteStream(requiredPath);
+
+// stream.write("@echo off\n");
+// stream.write("cd .\\"+pomFilePath+" && mvn clean install");
+// console.log(pomFilePath + " fini pomFilePath ")
+// finalExecution( requiredPath) 
+
+// } 
+
+
+// var finalExecution = function( requiredPath){
+// console.log(__dirname)
+// console.log(" final executryeriuyteriu req "+requiredPath)
+// // var dir= "C:\\Users\\user\\Desktop\\Latest_projects\\sample_projects\\code13Aug\\uploads\\anyname\\trial.bat" ; 
+
+// // const nodeCmd = require('node-cmd');
+// //nodeCmd.run(dir, (err, data, stderr) => console.log(data));
+// //__dirname+"\\uploads\\anyname\\"+"trial.bat"
+// // "C:\\Users\\user\\Desktop\\Latest_projects\\sample_projects\\code02818demo\\uploads\\projectjava12\\trial.bat"
+// // "C:\\Users\\user\\Desktop\\Latest_projects\\sample_projects\\code13Aug\\uploads\\anyname\\trial.bat" ; 
+// // require('child_process').exec 
+// // //__dirname+"/trial.bat"
+// require('child_process').exec(requiredPath, (err, stdout, stderr) => {
+// if (err) throw err;
+
+// console.log(stdout, stderr); 
+// }); 
+// }
 
 
 
->>>>>>> 19cb3ccfda67744054ed9c70eca0c8b0fafcb55c
+//>>>>>>> 19cb3ccfda67744054ed9c70eca0c8b0fafcb55c
 
 //   // var dir= "C:\\Users\\user\\Desktop\\Latest_projects\\sample_projects\\code13Aug\\uploads\\anyname\\trial.bat" ; 
   
