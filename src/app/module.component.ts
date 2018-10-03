@@ -80,7 +80,7 @@ console.log(this.incModuleId+"mm")
 urlSearchParams.append('moduleName', this.moduleName);
 urlSearchParams.append('moduleId', this.incModuleId);
 
-    return this.http.post('/postModuleName', urlSearchParams)
+    return this.http.post('/postModuleName'+ urlSearchParams,{})
       .subscribe(data => {
       console.log(data);
     });

@@ -14,7 +14,7 @@ export class ProjectSelectionServiceComponent {
  }
    getProjectSelectionDetails():Observable<Post[]>{
  	//alert("ll00")
-   return this.http.get("http://localhost:3666/selectionProject")
+   return this.http.get("http://localhost:2111/selectionProject")
   .map((response:Response)=><Post[]>response.json());
 
   }

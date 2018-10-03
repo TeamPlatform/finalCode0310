@@ -12,6 +12,9 @@ var mongojs=require('mongojs');
 var mongoose  = require('mongoose');
 var fs = require('fs');
 const exec = require('child_process')
+const JSON = require('circular-json');
+
+
 //var mongoStore = require('connect-mongo')(session);
 
 var methodOverride = require('method-override');
@@ -1104,52 +1107,23 @@ app.get('/selectionProject',function(req,res){
   
   })
   //})
-  
+  var featureDuplicate=[]
   app.post('/testScript',function(req,res)
   {
   
   console.log("llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll")
+  checkxml(req.body)
   
-  console.log(req.body);
-  
-  var moduleName=req.body[0].moduleName;
-  var featureName=req.body[0].featureName;
-  var lineNum=req.body[0].lineNum;
-  var projectSelection=req.body[0].projectSelection;
-  //checkxml(projectDetails[0].projectSelection,featureDetails[0].featureName,lineNum,moduleDetails[0].moduleName) 
-  //checkxml(req.body[0].projectSelection,featureDetails[0].featureName,lineNum,moduleDetails[0].moduleName) 
-  //checkxml(projectDetails[0].projectSelection,featureDetails[0].featureName,lineNum,moduleDetails[0].moduleName) 
-  checkxml(req.body) 
-  dbsNames (moduleName,featureName,lineNum,projectSelection)
-  })
-  var dbsNames = function(moduleName,featureName,lineNum,projectSelection){
-  console.log("dbnamesdbnamesssssssssssssss");
-  console.log(moduleName);
-  console.log(featureName);
-  console.log(lineNum);
-  console.log(projectSelection) 
-  
-  db.projectSelection.find({"projectSelection":String(projectSelection)},function(err,projectDetails){
-  console.log(projectDetails);
-  db.moduleName.find({"projectId":String(projectSelection),"moduleName":String(moduleName)},function(err,moduleDetails){
-  console.log(moduleDetails);
-  
-  db.featureName.find({"featureName":Number(featureName),"projectSelection":String(projectSelection),"moduleId":String(moduleName)},function(err,featureDetails){
-  console.log(featureDetails);
-  
-  console.log(projectDetails[0].projectSelection,moduleDetails[0].moduleName,featureDetails[0].featureName)
-  checkxml(projectDetails[0].projectSelection,featureDetails[0].featureName,lineNum,moduleDetails[0].moduleName) 
-  })
+  // dbsNames (moduleName,featureName,lineNum,projectSelection)
   })
   
-  })
-  }
   
   
-  var checkxml = function(projectFolder,featureName,lineNum,moduleName){
+ // var checkxml = function(projectFolder,featureName,lineNum,moduleName){
   var checkxml = function(data){ 
   console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
-  //console.log(data);
+  console.log(data);
+  console.log(data[0].projectSelection)
   const Filehound = require('filehound');
   Filehound.create()
   .ext('xml')
@@ -1189,7 +1163,8 @@ app.get('/selectionProject',function(req,res){
   
   console.log("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
   testRunnerCall(htmlFiles1[0].split("\\").pop() ,data[0].projectSelection,pomFilePath,data)
-  // console.log(data);
+   //console.log(htmlFiles1[0]);
+  // console.log(data)
   
   }) 
   }
@@ -1202,73 +1177,89 @@ app.get('/selectionProject',function(req,res){
   
   })
   })
-  } // checkxml
+ // } // checkxml
   }
   
-  var testRunnerCall = function(runnerName,path,pomFilePath,featureName,lineNum,moduleName){
+ // var testRunnerCall = function(runnerName,path,pomFilePath,featureName,lineNum,moduleName){
   
-  var testRunnerCall = function(runnerName,path,pomFilePath,data){ 
+  //var testRunnerCall = function(runnerName,ps,pomFilePath,mn,fn,ln){ 
+    var final = [];
+    var arr = [];
+    var testRunnerCall = function(runnerName,ps,pomFilePath,data){ 
   console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
-  //console.log(data); 
-  //var sampleData = data;
+  console.log(data)
   var lineString = ''; 
-  
-  
-  for(k=0;k<data.length;k++){
-  var lineString1 = "\""+data[k].moduleName+"/"+data[k].featureName+".feature:"+data[k].lineNum+"\""+",";
-  lineString = lineString.concat(lineString1)
-  // console.log(lineString);
-  // var abc=data[k].lineNum;
-  // console.log(abc)
+  for(var i=0;i<data.length;i++){
+    for(var j=0;j<data[i].featureName.length;j++){
+      for(var k=0;k<data[i].featureName[j].scriptName.length;k++){
+    //    console.log(data[i].featureName[j].scriptName[k].lineNum)
+        var ln = data[i].featureName[j].scriptName[k].lineNum;
+      console.log(k+"pppppppppppppppppppppppppppppppppp")
+      if(k===0){
+        var lineString1 = "\""+data[i].moduleName+"/"+data[i].featureName[j].featureName+".feature:"+data[i].featureName[j].scriptName[k].lineNum;
+        lineString = lineString.concat(lineString1)
+        var addString = lineString;
+      }
+      else{
+        var qq="ww"
+        var lineString2 = ":"+data[i].featureName[j].scriptName[1].lineNum;
+      //  console.log(lineString2)
+      lineString = lineString.concat(lineString2)
+      var addString = lineString;
+      }
+
+
+      }
+    }
   }
+ 
+
+  console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+   console.log(addString);
+  // var abc=data.lineNum;
+  // console.log(abc)
+  //}
   const Filehound = require('filehound');
   Filehound.create()
   .ext('java')
   .match(runnerName) // .match('*TestRunnerNew.java*')
-  .paths("./uploads/"+path)
+  .paths("./uploads/"+ps)
   
   .find((err, htmlFiles) => {
   
   if (err) return console.error("handle err", err);
   console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz")
   
-  //console.log(data)
-  // console.log(path)
-  // // console.log(featureName+'.'+lineNum);
-  
-  // lineStringObj=[];
-  // obj={};
-  
-  // obj['moduleName']= moduleName;
-  // obj['featureName']=featureName;
-  // obj['lineNum']= lineNum;
-  // lineStringObj.push(obj);
-  // console.log(lineStringObj);
-  
-  
-  
   var fs = require('fs');
   
   
-  // console.log("execTesttt111111"); 
   var testPath = "./"+htmlFiles; 
   //console.log(testPath+"testpathhhhhh");
   
   var data = fs.readFileSync(testPath).toString().split("\n");
-  //console.log(data)
+  //console.log("ttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt")
+ // console.log(data)
   // console.log(htmlFiles)
+ 
   for(i=0;i<data.length;i++){
   if( data[i].includes("@CucumberOptions")=== true) {
   // for(l = 0 ;l<=data.length;l++){
   // var lineString = "\""+moduleName+"/"+featureName[l]+".feature:4"+"\"";
   // }
-  
+console.log(addString)
   // var lineString = "\""+sampleData[0].moduleName+"/"+sampleData[0].featureName+".feature:"+sampleData[0].lineNum+"\"";
-  data[i] = "@CucumberOptions(features="+"{"+lineString+"},"+"";
+   if(qq==undefined){
+   data[i] = "@CucumberOptions(features="+"{"+addString+"\""+"},";
+  }
+ else{
+  console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz")
+  data[i] = "@CucumberOptions(features="+"{"+addString+"\"" +","+"},";
+  }
   // console.log(true);
   }
   }
-  
+
+
   data = data.join("\n");
   
   fs.writeFile(testPath,data,function(err)
@@ -1277,13 +1268,15 @@ app.get('/selectionProject',function(req,res){
   // console.log(text);
   console.log("Replaced");
   
-  execTestRunner( path,pomFilePath)
+ execTestRunner( path,pomFilePath)
   }) 
   
   })
-  }//
+ // }//
   }
   var execTestRunner = function( projectName,pomFilePath){
+    console.log("oooooooooooooooooooooooooooooooooooooo")
+    console.log(pomFilePath)
   // var pomFilePath = "uploads\\projectjava12\\Sample1";
   const Filehound = require('filehound');
   console.log(" i am ready for executoooooo projectName "+projectName)
@@ -1291,50 +1284,81 @@ app.get('/selectionProject',function(req,res){
   
   var fs = require('fs'); 
   var requiredPath = __dirname+"\\trial.bat"; 
+  console.log(requiredPath)
+  
   // var requiredPath = "/"+projectName;
   // var requiredPath = _dirname+"\\uploads"+"\\"+projectName+"\\trial.bat"; 
   
   var stream = fs.createWriteStream(requiredPath);
   
   stream.write("@echo off\n");
-  stream.write("cd .\\"+pomFilePath+" && mvn clean install");
+  stream.write("cd .\\"+pomFilePath+" && mvn clean install");  
   console.log(pomFilePath + " fini pomFilePath ")
-  finalExecution( requiredPath) 
+  
+ // finalExecution( requiredPath) 
   
   } 
   
   
-  var finalExecution = function( requiredPath){
-  console.log(__dirname)
-  console.log(" final executryeriuyteriu req "+requiredPath)
-  // var dir= "C:\\Users\\user\\Desktop\\Latest_projects\\sample_projects\\code13Aug\\uploads\\anyname\\trial.bat" ; 
+//   var finalExecution = function( requiredPath){
+//   console.log(__dirname)
+//   console.log(" final executryeriuyteriu req "+requiredPath)
+
+//   // var dir= "C:\\Users\\user\\Desktop\\Latest_projects\\sample_projects\\code13Aug\\uploads\\anyname\\trial.bat" ; 
   
-  // const nodeCmd = require('node-cmd');
-  //nodeCmd.run(dir, (err, data, stderr) => console.log(data));
-  //__dirname+"\\uploads\\anyname\\"+"trial.bat"
-  // "C:\\Users\\user\\Desktop\\Latest_projects\\sample_projects\\code02818demo\\uploads\\projectjava12\\trial.bat"
-  // "C:\\Users\\user\\Desktop\\Latest_projects\\sample_projects\\code13Aug\\uploads\\anyname\\trial.bat" ; 
-  // require('child_process').exec 
-  // //__dirname+"/trial.bat"
-  require('child_process').exec(requiredPath, (err, stdout, stderr) => {
-  if (err) throw err;
+//   // const nodeCmd = require('node-cmd');
+//   //nodeCmd.run(dir, (err, data, stderr) => console.log(data));
+//   //__dirname+"\\uploads\\anyname\\"+"trial.bat"
+//   // "C:\\Users\\user\\Desktop\\Latest_projects\\sample_projects\\code02818demo\\uploads\\projectjava12\\trial.bat"
+//   // "C:\\Users\\user\\Desktop\\Latest_projects\\sample_projects\\code13Aug\\uploads\\anyname\\trial.bat" ; 
+//   // require('child_process').exec 
+//   // //__dirname+"/trial.bat"
+//   require('child_process').exec(requiredPath, (err, stdout, stderr) => {
+//   if (err) throw err;
   
-  console.log(stdout, stderr); 
-  }); 
-  }
+//   console.log(stdout, stderr); 
+//   }); 
 
+//   finalExecution2() ;
+// }
 
+// var finalExecution2= function(){
+// var fs = require('fs'); 
+  
+//   console.log("22222222222222222222222222222222222222222222222222222222222222")
+// var requiredPath2 = "C:Users\\Getit\\Desktop\\code29918\\finalInt\\trial1.bat";
+// console.log(requiredPath2)
+// var pomFilePath2="uploads\\anyname\\Sample1";
 
+// var stream = fs.createWriteStream(requiredPath2);
+// stream.write("@echo off\n");
+// stream.write("cd .\\"+pomFilePath2+" && cypress run");
+// console.log(pomFilePath2 + "finish ")
 
+// trailCall(requiredPath2,pomFilePath2)
+// }
 
+// var trailCall = function( requiredPath2,pomFilePath2){
+//   console.log(requiredPath2)
+//   console.log(" final executryeriuyteriu req "+pomFilePath2)
 
+//   // var dir= "C:\\Users\\user\\Desktop\\Latest_projects\\sample_projects\\code13Aug\\uploads\\anyname\\trial.bat" ; 
+  
+//   // const nodeCmd = require('node-cmd');
+//   //nodeCmd.run(dir, (err, data, stderr) => console.log(data));
+//   //__dirname+"\\uploads\\anyname\\"+"trial.bat"
+//   // "C:\\Users\\user\\Desktop\\Latest_projects\\sample_projects\\code02818demo\\uploads\\projectjava12\\trial.bat"
+//   // "C:\\Users\\user\\Desktop\\Latest_projects\\sample_projects\\code13Aug\\uploads\\anyname\\trial.bat" ; 
+//   // require('child_process').exec 
+//   // //__dirname+"/trial.bat"
+//   require('child_process').exec(requiredPath2, (err, stdout, stderr) => {
+//   if (err) throw err;
+  
+//   console.log(stdout, stderr); 
+//   }); 
 
-
-
-
-
-
-
+// }
+  
 
 app.get('/loginDetails',function(req,res){
 
@@ -1517,7 +1541,7 @@ app.get('*',(req, res)=> {
 
 res.sendFile(path.join(__dirname,'dist/index.html'));
 });
- const port=3666;
+ const port=2111;
 app.listen(port,function() {
   console.log("server running on port"+port);
   // body...

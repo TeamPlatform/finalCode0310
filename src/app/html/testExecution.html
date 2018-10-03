@@ -32,6 +32,7 @@
     <th style="width: 110px;">Module Name</th>
     <th style="width: 110px;">Feature Name </th>
     <th style="width: 500px;">Script Name</th>
+    <th style="width: 500px;">line no</th>
     
     </tr>
     </thead>
@@ -41,6 +42,7 @@
     <td *ngIf="srch==true" style="width: 110px;">{{test.moduleName}}</td>
     <td *ngIf="srch==true" style="width: 110px;">{{test.featureName}}</td>
     <td *ngIf="srch==true" style="width: 538px;">{{test.scriptName}}</td>
+    <td *ngIf="srch==true" style="width: 538px;">{{test.lineNum}}</td>
     
     </tr>
     </tbody>
@@ -51,22 +53,7 @@
     </body> 
     </div>
     <div class="col-md-3" style="font-size: 15px"> 
-    <!-- <ul *ngFor="let module of moduleDetails; let i = index" >
-    <li (click)="manualtoggle(module.moduleName,i)" class="glyphicon glyphicon-folder-open">
-    {{module.moduleName}}
-    </li >
-    <br><br>
-    <ul *ngIf="i===ind" >
-    <li *ngFor="let feature of finalFeature;let j = index" class="glyphicon glyphicon-folder-open">
-    {{feature.featureName}}
-    </li>
-    <br><br>
-    <ul >
-    <li *ngFor="let script of finalScript" class="glyphicon glyphicon-folder-open">
-    {{script.scriptName}}
-    </li> 
-    </ul>
-    </ul> -->
+   
     <ul style = "list-style-type:none;" *ngFor="let module of featureDetails3 ; let i = index" >
     <li (click)="manualtoggle(module.moduleName,i)" >
     
@@ -86,36 +73,7 @@
     </li> 
     </ul> 
     
-    <!-- <ul style = "list-style-type:none;" >
-    <li *ngFor="let module2 of featureDetails1 ; let i = index" >
-    <span class="glyphicon glyphicon-folder-open" *ngIf="module1.scriptName===module2.scriptName && module1.featureName===module.featureName" >{{module2.scriptName}}</span>
-    </li></ul> 
-    </li> -->
-    <!-- <br><br> -->
     
-    
-    
-    
-    
-    <!-- <ul *ngFor="let module of moduleDetails ; let i = index" >
-    <li (click)="manualtoggle(module.moduleName,i)" class="glyphicon glyphicon-folder-open">
-    {{module.moduleName}}
-    </li > 
-    <br><br>
-    <ul *ngFor="let feature of finalFeature;let i = index" >
-    <li (click)="manualtoggle2(feature.featureName,i)" class="glyphicon glyphicon-folder-open">
-    {{feature.featureName}}
-    <ul>
-    <li *ngFor="let script of finalScript ; let i = index" >
-    <span class="glyphicon glyphicon-folder-open" *ngIf="feature.scriptName===script.scriptName" >{{script.scriptName}}</span>
-    </li></ul> 
-    </li>
-    <br><br> -->
-    <!-- <ul >
-    <li *ngFor="let script of finalScript ; let i = index" class="glyphicon glyphicon-folder-open">
-    {{script.scriptName}}
-    </li> 
-    </ul> -->
     </ul>
     
     <br>
@@ -125,7 +83,7 @@
     </ul> 
     
     <br>
-    <button (click)=run(moduleName,featureName,lineNum,projectSelection)>Run</button>
+    <button (click)=run()>Run</button>
     
     </div>
     </div>
