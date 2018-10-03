@@ -209,7 +209,7 @@ var moduleCount = 1;
  
 app.post("/projectSelection/:a",upload.any(),function(req, res,next) {
 //console.log(req.body.dataFromFrameworkDropdown)
-
+//console.log(req.body.dataFromFrameworkDropdown+"ppp")
     db.countInc.find({},function(err,doc){
     proID=doc[0].projectID
    pCount=doc[0].pCount
@@ -273,7 +273,7 @@ let lengthCount = Number(req.body.totalLength-1);
                        // createDbs(files[m].contentType)
                         //console.log(m+" no loop "+"   "+files[m].filename) 
                     }else{
-                  console.log("333333333uuuuuuu")
+                  //console.log("333333333uuuuuuu")
                         shell.mkdir('-p',"./"+files[m].metadata)
       
              const stream = gfs.createReadStream(files[m].filename);
@@ -304,6 +304,11 @@ else if(req.body.dataFromFrameworkDropdown==="TestNg"){
 
   console.log("testng")
   testNgDbCreation(files[m].contentType,proID,pCount,mCount,fCount,sCount, smId, sfID, ssID)
+}
+else if(req.body.dataFromFrameworkDropdown==="Cypress"){
+
+  console.log("cypress")
+ cypressDbCreation(files[m].contentType,proID,pCount,mCount,fCount,sCount, smId, sfID, ssID)
 }
 
               });
@@ -339,6 +344,223 @@ res.json([]);
 }
     
 });
+
+
+
+
+
+// const searchFilehound = require('filehound');
+//     searchFilehound.create()
+//   //.match('integration')
+//   .paths("./uploads"+"/"+"wwpressTests"+"/endToEndTests/cypress/integration")
+//    .find((err, htmlFiles) => {
+// //console.log("cyyyyyyyyyyyyyyy")
+// //console.log(htmlFiles)
+//   htmlFiles.forEach(function(file) {
+//  var cypressFilesLength=file.length
+
+//  //console.log(cypressFilesLength+"elllllllleeengthhhhh")
+// //           let data_Array = file.split("\\");
+
+// //       let mName = file.split("\\",(data_Array.length-1)).pop()
+// // console.log(mName)
+   
+//   var LineReader = require('line-by-line');
+//  lR = new LineReader(file)
+ 
+//     lR.on('error', function (err) {
+//     console.log("eeeeeeee")  
+//     });
+    
+//     lR.on('line', function (line) {
+      
+         
+//         if(line.includes(" it('") === true){
+//         var scriptLinePath=line.split(",")
+// var onlyScriptPath=scriptLinePath[0].split("it(")
+// var finalCypressScript=onlyScriptPath[1].replace("'","").replace("'","")
+    
+
+
+
+// }
+// })
+
+// })
+// })
+
+
+
+var cypressArrayFilesCheck=[]
+
+var  cypressDbCreation= function(cypressProjectName,proID,pCount,mCount,fCount,sCount, smId, sfID, ssID){
+//console.log("1111111")
+ pCount++
+ pID=proID+pCount
+
+db.projectSelection.insert({"projectSelection":cypressProjectName,"projectId":pID,"framework":"Cypress"})
+//console.log("call ssssssss")
+
+var cypressModuleName=[]
+//var cypressArrayFilesCheck=[]
+const searchFilehound = require('filehound');
+    searchFilehound.create()
+  //.match('integration')
+  .paths("./uploads"+"/"+cypressProjectName+"/endToEndTests/cypress/integration")
+   .find((err, htmlFiles) => {
+//console.log("cyyyyyyyyyyyyyyy")
+//console.log(htmlFiles)
+  htmlFiles.forEach(function(file) {
+ //var cypressFilesLength=file.length
+
+ //console.log(cypressFilesLength+"elllllllleeengthhhhh")
+//           let data_Array = file.split("\\");
+
+//       let mName = file.split("\\",(data_Array.length-1)).pop()
+// console.log(mName)
+   
+  var LineReader = require('line-by-line');
+ lR = new LineReader(file)
+ 
+    lR.on('error', function (err) {
+    console.log("eeeeeeee")  
+    });
+    
+    lR.on('line', function (line) {
+      
+         
+        if(line.includes(" it('") === true){
+    
+       
+      if(cypressArrayFilesCheck.includes(file)===false){
+
+     
+        cypressArrayFilesCheck.push(file)
+   path.basename(cypressArrayFilesCheck[cypressArrayFilesCheck.length-1])
+   // console.log(path.basename(cypressArrayFilesCheck[cypressArrayFilesCheck.length-1])) 
+      var cypressModule=path.dirname(cypressArrayFilesCheck[cypressArrayFilesCheck.length-1]).split('\\').pop()
+   
+
+       if(cypressModuleName.includes(cypressModule)===false){
+        //console.log("33333333")
+         mCount++
+  mId=smId+mCount
+  db.moduleName.insert({"moduleName":cypressModule,"moduleId":mId,"projectId":pID})
+cypressModuleName.push(path.dirname(cypressArrayFilesCheck[cypressArrayFilesCheck.length-1]).split('\\').pop())
+  //console.log(testNgModuleName) 
+       }
+       else{
+
+mId=smId+mCount
+}
+        //console.log( path.basename(arrayFilesCheck[arrayFilesCheck.length-1],'.java'))
+       fCount++
+    fID=sfID+fCount
+db.featureName.insert({"featureName":path.basename(cypressArrayFilesCheck[cypressArrayFilesCheck.length-1],'.js'),"featureId":fID,"moduleId":mId,"projectId":pID})
+
+cypressScriptsCreation(cypressArrayFilesCheck[cypressArrayFilesCheck.length-1],fID,mId,pID,ssID,sCount)
+         
+
+         }
+
+      }
+   
+
+
+   })
+
+  })
+
+})
+
+
+}//end of testng functio
+
+var cypressLength=1;
+var cypressScriptsCreation=function(scriptPath,fID,mId,pID,ssID,sCount){
+
+ var scriptPath=__dirname+"/"+scriptPath
+ console.log(scriptPath)
+//console.log("000000000000000000000000")
+   var scriptLineInc=0
+  var Line = require('line-by-line');
+ lScript = new Line(scriptPath)
+ 
+   lScript .on('error', function (err) {
+    console.log("eeeeeeee")  
+    });
+    
+    lScript.on('line', function (line) {
+      //console.log(sCount+"rrrrrrr")
+       
+         
+        if(line.includes(" it('") == true){
+         // console.log("wswwwwwwwww")
+          
+          scriptCount++ 
+           //console.log(sCount+"wswwwwwwwww")
+
+  sID=ssID+scriptCount
+
+
+    var scriptLinePath=line.split(",")
+var onlyScriptPath=scriptLinePath[0].split("it(")
+var finalCypressScript=onlyScriptPath[1].replace("'","").replace("'","")
+    db.testScript.insert({"scriptName":finalCypressScript,"featureId":fID,"moduleId":mId,"scriptId":sID,"lineNum":scriptLineInc,"projectId":pID})
+//.log(res[2])
+
+
+}
+else{
+   scriptLineInc++
+}
+})
+
+   lScript.on('end', function () {
+      
+    //console.log(cypressLength+"jjjjjjj")
+    //console.log(cypressArrayFilesCheck.length+"hhhhuuu")
+        if(cypressLength===cypressArrayFilesCheck.length){
+          console.log("eendddddd2222222222222222222222")
+          cypressLength=0;
+          // filesLength=0;
+          cypressArrayFilesCheck=[]
+    
+            var fFCount=fID.split("fID")
+            var finalfCount=parseInt(fFCount[1])
+          
+           //console.log("uuuuuu"+fCount) 
+            var fMCount=mId.split("mID")
+             var finalmCount=parseInt(fMCount[1])
+            var fPCount=pID.split("pID")
+             var finalpCount=parseInt(fPCount[1])
+             //console.log(sID)
+            var fSCount=sID.split("sID")
+             var finalsCount=parseInt(fSCount[1])
+ 
+// setTimeout(function() {
+      db.countInc.update({"projectID":"pID"},{$set:{ "fCount":finalfCount,"sCount":finalsCount,
+    "pCount":finalpCount,"mCount":finalmCount}})
+    // },10000)
+    //console.log("  end end  Scenario  true "+finalfCount+"L"+finalsCount+"L"+finalpCount+"L"+finalmCount)      
+   }
+cypressLength++
+
+  
+    });
+
+
+
+
+ }
+
+
+
+
+
+
+
+
 var arrayFilesCheck=[]
 var  testNgDbCreation= function(testNgProjectName,proID,pCount,mCount,fCount,sCount, smId, sfID, ssID){
 //console.log("1111111")
@@ -468,6 +690,7 @@ testNgScriptsCreation(arrayFilesCheck[arrayFilesCheck.length-1],fID,mId,pID,ssID
 // })
 //  })
 //////////////////////
+//var cypressLength=1;
 var everyTestNgLength=1;
 var scriptCount=null
  db.countInc.find({},function(err,doc){
@@ -575,63 +798,7 @@ everyTestNgLength++
 
  }
    
-   // trial start 
-
-// var trialCall123 = function() {
-//     //  setTimeout(function() {
-//       //console.log("Task 311111111111113333333333333333333333333333  ");
-//       conn.once('open', () => {
-//         // Init stream
-//         gfs = gridfs(conn.db, mongoose.mongo);
-       
-//          gfs.collection('folder');
-//        var  lengthCount =1910;
-//       gfs.files.find({contentType:"projectjavatriall7564"}).toArray(function (err, files) {
-  
-//         //console.log("files length  "+files.length)
-//          let lengthCheck = files.length - 1 ; 
-//        //  console.log(files)
-//          let i = 0;
-//         // for(m =1;m<=lengthCount;m++){
-//            //console.log(" heelo 3 "+i)
-
-//        //return new Promise((resolve, reject) => {
-  
-           
-//          //files.forEach(function(files) {
-//             //trialcall1(0)
-//             let m =0;
-//           var  trialcall1 =  function(m){
-//                 if(m==lengthCheck){
-//                    // console.log(m+" no loop "+"   "+files[m].filename) 
-                    
-//                    // setTimeout(, 1500 );
-//                     // setTimeout(function(){
-
-//                     //     // Current time in milliseconds
-//                     //     //console.log(new Date().getTime()); 
-//                     //     createDbs(files[m].contentType)
-                    
-//                     //   },15000);
-//                 }else{
-//                     shell.mkdir('-p',"./"+files[m].metadata)
-  
-//          const stream = gfs.createReadStream(files[m].filename);
-  
-//       var eam = fs.createWriteStream(__dirname+"/"+files[m].metadata+"/"+files[m].filename);
-  
-  
-//           stream.pipe(eam);
-//           m++;
-//           //console.log(m+" exectutr loop "+"   "+files[m].filename) 
-//                     trialcall1(m)
-//                 }
-//             }  
-//             trialcall1(0)
-         
-  
-  
-//         })
+ 
 
 app.get('/searchDir:sD',function(req,res){
   //console.log("sdddddddDir")
@@ -1062,6 +1229,8 @@ app.get('/selectionProject',function(req,res){
   
   db.testScript.find({"moduleId":moduleId,"featureId":featureId},function(err,testScriptDetails)
   {
+    
+    console.log(testScriptDetails)
   // res.json(doc);
   //console.log(moduleDetails);
   var newArray = [];
@@ -1107,6 +1276,7 @@ app.get('/selectionProject',function(req,res){
   
   })
   //})
+<<<<<<< HEAD
   var featureDuplicate=[]
   app.post('/testScript',function(req,res)
   {
@@ -1303,6 +1473,239 @@ console.log(addString)
 //   var finalExecution = function( requiredPath){
 //   console.log(__dirname)
 //   console.log(" final executryeriuyteriu req "+requiredPath)
+=======
+  
+ app.post('/testScript',function(req,res)
+{
+
+console.log("llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll")
+//console.log(req.body)
+// for(var i=0;i<1;i++){
+// // i is module length
+// //console.log(req.body[i].moduleName)
+// //console.log(req.body[i].projectSelection)
+// for(var j=0;j<=req.body[i].featureName.length-1;j++){
+// // j is feature length
+// //console.log(req.body[i].featureName[j].featureName)
+// for(var k=0;k<=req.body[i].featureName[j].scriptName.length-1;k++){
+// // j is feature length
+// //console.log(req.body)
+ checkxml(req.body) 
+// }
+// }
+
+
+
+// }
+
+
+
+// dbsNames (moduleName,featureName,lineNum,projectSelection)
+})
+
+
+
+// var checkxml = function(projectFolder,featureName,lineNum,moduleName){
+var checkxml = function(wholeData){ 
+console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
+var ps=wholeData[0].projectSelection
+const Filehound = require('filehound');
+Filehound.create()
+.ext('xml')
+//.match(b)
+.paths( "./uploads/"+ps)
+.find((err, htmlFiles) => {
+
+htmlFiles.forEach(function(file) {
+
+var LineByLineReader = require('line-by-line');
+lr = new LineByLineReader(file)
+//console.log(lr)
+lr.on('error', function (err) 
+{
+// 'err' contains error object
+//console.log(" error rr rr rr ")
+});
+
+lr.on('line', function (line) 
+{
+//console.log(line)
+//console.log(line)
+
+if(line.includes("<suiteXmlFile>") === true)
+{ 
+  //console.log(line)
+var res = (line.replace("<suiteXmlFile>",'').replace("</suiteXmlFile>",'')); 
+//console.log(res)
+let pomFilePath = ( file.split("").reverse().join("")).substring(file.indexOf("\\")+1).split("").reverse().join("");
+//console.log(pomFilePath)
+//console.log("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
+Filehound.create()
+.ext('xml')
+.match(res)
+.paths( "./uploads/"+ps)
+.find((err, htmlFiles1) =>
+{
+// testRunnerCall(htmlFiles1[0].split("\\").pop() ,projectFolder,pomFilePath,featureName,lineNum,moduleName)
+// console.log(htmlFiles1)
+// console.log(htmlFiles1[0])
+console.log("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
+ 
+console.log(wholeData)
+testRunnerCall(htmlFiles1[0].split("\\").pop() ,ps,pomFilePath,wholeData)
+
+
+}) 
+}
+});
+
+lr.on('end', function () {
+// console.log(" end end Scenario true ")
+// All lines are read, file is closed now.
+});
+
+})
+})
+// } // checkxml
+}
+
+// var testRunnerCall = function(runnerName,path,pomFilePath,featureName,lineNum,moduleName){
+
+var testRunnerCall = function(runnerName,ps,pomFilePath,wholeData){ 
+console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+console.log(wholeData);
+//console.log(sn); 
+//var sampleData = data;
+//var lineString = ''; 
+
+///data length
+// for(k=0;k<1;k++){
+// var lineString1 = "\""+mn+"/"+fn+".feature:"+ln+"\""+",";
+// console.log(lineString1)
+// lineString = lineString.concat(lineString1)
+// console.log(lineString1)
+//console.log(runnerName)
+// console.log(lineString);
+// var abc=data[k].lineNum;
+// console.log(abc)
+//}
+const Filehound = require('filehound');
+Filehound.create()
+.ext('xml')
+.match(runnerName) // .match('*TestRunnerNew.java*')
+.paths("./uploads/"+ps)
+
+.find((err, htmlFiles) => {
+
+if (err) return console.error("handle err", err);
+console.log("zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz")
+console.log(wholeData);
+//console.log(data)
+// console.log(path)
+// // console.log(featureName+'.'+lineNum);
+
+// lineStringObj=[];
+// obj={};
+
+// obj['moduleName']= moduleName;
+// obj['featureName']=featureName;
+// obj['lineNum']= lineNum;
+// lineStringObj.push(obj);
+// console.log(lineStringObj);
+
+
+
+var fs = require('fs');
+
+
+ //console.log(htmlFiles); 
+var testPath = "./"+htmlFiles; 
+//console.log(testPath+"testpathhhhhh");
+
+var data = fs.readFileSync(testPath).toString().split("\n");
+//console.log(data)
+ //console.log(data.length)
+for(i=0;i<data.length;i++){
+ 
+if( data[i].includes("<test")=== true) {
+   console.log("oooooooooooooooo")
+// for(l = 0 ;l<=data.length;l++){
+// var lineString = "\""+moduleName+"/"+featureName[l]+".feature:4"+"\"";
+// }
+
+// var lineString = "\""+sampleData[0].moduleName+"/"+sampleData[0].featureName+".feature:"+sampleData[0].lineNum+"\"";
+data[i] = "<test name="+'"'+wholeData[0].featureName[0].featureName+'"'+">";
+// console.log(true);
+}
+ if((data[i].includes("methods>")=== true)){
+   console.log("uuuuuuuuuuuuuuu")
+   for(var s=0;s<2;s++){
+   console.log(wholeData[0].featureName[0].scriptName[s].scriptName)
+ 
+  }
+
+  }
+
+
+}
+
+data = data.join("\n");
+//var yy="jjj"
+fs.writeFile(testPath,data,function(err)
+{
+if (err) return console.log(err);
+// console.log(text);
+console.log("Replaced");
+
+//execTestRunner( ps,pomFilePath)
+}) 
+
+})
+}//
+// }
+var execTestRunner = function( projectName,pomFilePath){
+// var pomFilePath = "uploads\\projectjava12\\Sample1";
+const Filehound = require('filehound');
+console.log(" i am ready for executoooooo projectName "+projectName)
+console.log(__dirname)
+
+var fs = require('fs'); 
+var requiredPath = __dirname+"\\trial.bat"; 
+// var requiredPath = "/"+projectName;
+// var requiredPath = _dirname+"\\uploads"+"\\"+projectName+"\\trial.bat"; 
+
+var stream = fs.createWriteStream(requiredPath);
+
+stream.write("@echo off\n");
+stream.write("cd .\\"+pomFilePath+" && mvn clean install");
+console.log(pomFilePath + " fini pomFilePath ")
+finalExecution( requiredPath) 
+
+} 
+
+
+var finalExecution = function( requiredPath){
+console.log(__dirname)
+console.log(" final executryeriuyteriu req "+requiredPath)
+// var dir= "C:\\Users\\user\\Desktop\\Latest_projects\\sample_projects\\code13Aug\\uploads\\anyname\\trial.bat" ; 
+
+// const nodeCmd = require('node-cmd');
+//nodeCmd.run(dir, (err, data, stderr) => console.log(data));
+//__dirname+"\\uploads\\anyname\\"+"trial.bat"
+// "C:\\Users\\user\\Desktop\\Latest_projects\\sample_projects\\code02818demo\\uploads\\projectjava12\\trial.bat"
+// "C:\\Users\\user\\Desktop\\Latest_projects\\sample_projects\\code13Aug\\uploads\\anyname\\trial.bat" ; 
+// require('child_process').exec 
+// //__dirname+"/trial.bat"
+require('child_process').exec(requiredPath, (err, stdout, stderr) => {
+if (err) throw err;
+
+console.log(stdout, stderr); 
+}); 
+}
+
+
+
+>>>>>>> 19cb3ccfda67744054ed9c70eca0c8b0fafcb55c
 
 //   // var dir= "C:\\Users\\user\\Desktop\\Latest_projects\\sample_projects\\code13Aug\\uploads\\anyname\\trial.bat" ; 
   
