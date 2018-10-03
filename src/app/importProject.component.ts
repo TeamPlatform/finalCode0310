@@ -143,7 +143,7 @@ this.message=result;
 }
 
  makeFileRequest(url: string, params: Array<string>, files: Array<File>,i:number,totalLength :number) {
-         alert("pppp")
+         //alert("pppp")
          this.message="Please Wait"
 
         return new Promise((resolve, reject) => {

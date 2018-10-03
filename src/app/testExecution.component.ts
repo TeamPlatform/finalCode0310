@@ -78,8 +78,10 @@ scripttData: any[];
 scriptDetails=[];
 aMN:string;
 aFN:string;
+aSN:string;
 ind:number;
 indU:number;
+indUU:number;
 
 constructor( private data: TestExecutionServiceComponent , private http:Http) {
 this.srch=false; 
@@ -124,12 +126,21 @@ this.indU=index;
 // alert(this.indU+typeof(this.indU)) 
 }
 
+manualtoggle3(clickScript,index){
+this.aSN=clickScript;
+this.indUU=index;
+// alert(index+typeof(index)) 
+// alert(this.indU+typeof(this.indU)) 
+}
+
 
 
 lineNu:any
 
 search(moduleId,featureId) 
 {
+	//alert(moduleId+"kk"+featureId)
+	//alert(moduleId)
 //.log(projectId);
 //console.log(moduleId);
 //console.log(featureId);
@@ -146,7 +157,7 @@ this.lineNu =moduleId+','+featureId+','+this.projectName ;
 //console.log(this.lineNu);
 
 
-this.data.testScriptDetails(this.lineNu).subscribe(result =>{this.testScriptsData=result;});
+this.data.testScriptDetails(this.lineNu).subscribe(result =>{this.testScriptsData=result});
 }
 }
 
@@ -171,33 +182,18 @@ this.projectSelection=test.projectSelection;
 
 var mobj:Object={}; 
 
-// mobj["moduleName"]=this.moduleName;
-// mobj["featureName"]=this.featureName;
-// mobj["scriptName"]=this.scriptName;
-
-// mobj["moduleName"]=this.moduleName;
-// mobj["featureName"] =[
-// {"featureName":"featureName1",scriptName :[{"scriptName":"scriptName1"},{"scriptName":"scriptName2"},{"scriptName":"scriptName3"}] },
-// {"featureName":"featureName2",scriptName :[{"scriptName":"scriptName4"},{"scriptName":"scriptName5"},{"scriptName":"scriptName6"}]}
-// ];
-
-
-// mobj["featureName"]=[{"featureName":"featureName1"},{"featureName":"featureName2"},[{"scriptName":"scriptName1"},{"scriptName":"scriptName2"}]];
-//mobj["scriptName"]=this.scriptName;
-
-// if(this.featureDetails3[0].moduleName)
-// for(var i=0;i<=10;i++){
 var n=0;
 if(this.featureDetails3.some(e=>e.moduleName===this.moduleName)===false ) {
 mobj["moduleName"]=this.moduleName;
+mobj["projectSelection"]=this.projectSelection;
 mobj["featureName"] =[
-{"featureName":this.featureName,scriptName:[{"scriptName":this.scriptName}]}
-
+// {"featureName":this.featureName,scriptName:[{"scriptName":this.scriptName}],lineNum:[{"lineNum":this.lineNum}]}
+{"featureName":this.featureName,scriptName:[{"scriptName":this.scriptName,"lineNum":this.lineNum}]}
 ];
 this.featureDetails3.push(mobj);
 // this.df= this.featureDetails3[0].featureName[0].featureName
 console.log("manish")
-// console.log(this.featureDetails3);
+console.log(this.featureDetails3);
 // console.log(this.featureDetails3[0].featureName)
 // console.log(this.featureDetails3[0].featureName[0].featureName);
 // mobj={}
@@ -209,14 +205,14 @@ else if(this.featureDetails3.some(e=>e.featureName[this.incNum].featureName===th
 console.log(this.incNum+"ttttttttttttt")
 mobj={}
 // mobj["featureName"] =[
-mobj={"featureName":this.featureName,scriptName:[{"scriptName":this.scriptName}]}
-
+// mobj={"featureName":this.featureName,scriptName:[{"scriptName":this.scriptName}],lineNum:[{"lineNum":this.lineNum}]}
+var rr={"featureName":this.featureName,scriptName:[{"scriptName":this.scriptName,"lineNum":this.lineNum}]}
 // ];
 // console.log(mobj)
 // console.log(mobj[0])
 
 
-this.featureDetails3[0].featureName.push(mobj);
+this.featureDetails3[0].featureName.push(rr);
 this.incNum++
 
 console.log("vicky"+this.incNum)
@@ -234,33 +230,22 @@ console.log(n+"ssssssssssssssssssssssss")
 n++
 console.log("script")
 mobj={}
+console.log(mobj)
 // mobj["featureName"] =[
-mobj={"scriptName":this.scriptName}
-
+// mobj={"scriptName":this.scriptName,lineNum:[{"lineNum":this.lineNum}]}
+var dd={"scriptName":this.scriptName,"lineNum":this.lineNum} 
 // ];
-//console.log(mobj)
-// console.log(mobj[0])
+console.log(dd)
 
-this.featureDetails3[0].featureName[this.incNum].scriptName.push(mobj);
-//console.log(this.featureDetails3)
+
+this.featureDetails3[0].featureName[this.incNum].scriptName.push(dd);
+console.log(this.featureDetails3)
 
 // console.log(this.featureDetails3[0]);
 // console.log(this.featureDetails3[0].featureName);
 // console.log(this.featureDetails3[0].featureName[0]);
 }
-// }//for endddd
-// mobj["moduleName"]="feateyfefy";
-// mobj["featureName"] =[
-// {"featureName":"featureName3",scriptName :[{"scriptName":"scriptNam7"},{"scriptName":"scriptName8"},{"scriptName":"scriptName9"}] },
-// {"featureName":"featureName4",scriptName :[{"scriptName":"scriptName41"},{"scriptName":"scriptName51"},{"scriptName":"scriptName61"}]}
-// ];
-// // mobj["featureName"]=[{"featureName":"featureName1"},{"featureName":"featureName2"},[{"scriptName":"scriptName1"},{"scriptName":"scriptName2"}]];
-// //mobj["scriptName"]=this.scriptName;
 
-
-// this.featureDetails3.push(mobj);
-// console.log("this.featureDetails3")
-// console.log(this.featureDetails3)
 var featu:Object={};
 featu["moduleName"]=this.moduleName;
 featu["featureName"]=this.featureName;
@@ -312,30 +297,6 @@ this.finalScript=this.featureDetails
 //}
 
 }
-//console.log(typeof(featu["featureName"])+featu["featureName"]);
-//console.log(this.featureDetails.length)
-//console.log(this.featureDetails)
-//console.log(typeof(this.featureDetails[i].featureName)+this.featureDetails[i].featureName)
-// for ( var i=0; i<=this.featureDetails.length-1; i++ ) {
-// //console.log(typeof(this.featureDetails[i].featureName)+this.featureDetails[i].featureName)
-// if(featu["featureName"] == this.featureDetails[i].featureName){
-// alert("equal")
-
-// var obj:Object={};
-
-// obj["scriptName"]=this.scriptName;
-// console.log(obj);
-// this.scriptDetails.push(obj);
-// this.scripttData=this.scriptDetails;
-// console.log(this.scripttData)
-// // console.log(this.featureDetails)
-// // this.featureDetails.splice(i,1)
-// } 
-
-// }
-
-
-
 }
 
 vj2=[];
@@ -362,32 +323,22 @@ this.testScriptsData=this.vj2;
 this.vjData.splice(this.index2,1);
 }
 
-run(moduleName,featureName,lineNum,projectSelection) 
+run() 
 
 { 
-alert("Run");
-alert("moduleName=>"+moduleName);
-alert("featureName=>"+featureName);
-alert("lineNum=>"+lineNum);
-alert("projectSelection=>"+projectSelection);
-// this.runn.push( // {
-// "moduleId":moduleId,
-// "featureId":featureId,
-// "lineNum":this.lineNumb,
-// "projectname":projectId, 
-// })
+//alert("Run");
+//console.log(this.featureDetails3);
 
-// console.log(this.runn); 
-
-var lineNumm = this.lineNum;
-// console.log(moduleName+','+featureName+','+lineNumm+','+projectSelection); 
-var c = this.vjData;
+// var a = JSON.stringify(this.featureDetails3);
+// console.log("charan")
+// console.log(a);
+// let urlSearchParams = new URLSearchParams();
+// urlSearchParams.append('ProjectName', a);
 
 
-
-return this.http.post('/testScript',c,{})
-.subscribe(result =>{console.log(result)
-});
+return this.http.post('/testScript',this.featureDetails3) 
+// .map(res=> res.json())
+.subscribe(result =>{console.log(result)});
 
 }
 

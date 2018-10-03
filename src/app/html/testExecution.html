@@ -1,131 +1,89 @@
 <div style="font-size: 15px" > 
 
-   
-    <span>
-        
-    Module :
-    <select [(ngModel)]="moduleId" >
-    <option *ngFor = "let var_moduleName of moduleNames" value="{{var_moduleName.moduleId}}" (click)="moduleIndex(var_moduleName)">{{var_moduleName.moduleName}}</option>
-    
-    </select>
-    </span>
-    <span>
-    Feature :
-    <select [(ngModel)]="featureId" >
-    <option *ngFor = "let var2_featureName of featureNames" value="{{var2_featureName.featureId}}">{{var2_featureName.featureName}}</option> 
-    </select>
-    </span> 
-    <button (click)=search(moduleId,featureId)>Search</button>
-    </div>
-    <br><br>
-    <div class="row">
-    <div class="col-md-7" style="font-size: 15px"> 
-    
-    <body id="main"> 
-    <br><br> 
-    
-    <div class="container" style="font-size: 15px">
-    <table class="table table-condensed" style="width:100%">
-    <thead style="width:100%">
-    <tr *ngIf="srch==true">
-    <th></th>
-    <th style="width: 110px;">Module Name</th>
-    <th style="width: 110px;">Feature Name </th>
-    <th style="width: 500px;">Script Name</th>
-    
-    </tr>
-    </thead>
-    <tbody class="table1">
-    <tr *ngFor = "let test of testScriptsData; let i = index;" > 
-    <td *ngIf="srch==true" ><input type="checkbox" (click)=row(i,test)></td> 
-    <td *ngIf="srch==true" style="width: 110px;">{{test.moduleName}}</td>
-    <td *ngIf="srch==true" style="width: 110px;">{{test.featureName}}</td>
-    <td *ngIf="srch==true" style="width: 538px;">{{test.scriptName}}</td>
-    
-    </tr>
-    </tbody>
-    
-    </table>
-    
-    </div>
-    </body> 
-    </div>
-    <div class="col-md-3" style="font-size: 15px"> 
-    <!-- <ul *ngFor="let module of moduleDetails; let i = index" >
-    <li (click)="manualtoggle(module.moduleName,i)" class="glyphicon glyphicon-folder-open">
-    {{module.moduleName}}
-    </li >
-    <br><br>
-    <ul *ngIf="i===ind" >
-    <li *ngFor="let feature of finalFeature;let j = index" class="glyphicon glyphicon-folder-open">
-    {{feature.featureName}}
-    </li>
-    <br><br>
-    <ul >
-    <li *ngFor="let script of finalScript" class="glyphicon glyphicon-folder-open">
-    {{script.scriptName}}
-    </li> 
-    </ul>
-    </ul> -->
-    <ul style = "list-style-type:none;" *ngFor="let module of featureDetails3 ; let i = index" >
-    <li (click)="manualtoggle(module.moduleName,i)" >
-    
-    <span class="glyphicon glyphicon-folder-open" > {{module.moduleName}} </span>
-    
-    </li > 
-    <!-- <br><br> -->
-    <ul style = "list-style-type:none;" *ngIf="i===ind" >
-    <li *ngFor="let module1 of module.featureName ;let j = index" (click)="manualtoggle2(module1.featureName,j)" >
-    
-    <span class="glyphicon glyphicon-folder-open" > {{module1.featureName}}</span>
-    
-    <ul style = "list-style-type:none;" *ngIf="j===indU" >
-    <li *ngFor="let module2 of module1.scriptName" >
-    
-    <span class="glyphicon glyphicon-folder-open" > {{module2.scriptName}}</span>
-    </li> 
-    </ul> 
-    
-    <!-- <ul style = "list-style-type:none;" >
-    <li *ngFor="let module2 of featureDetails1 ; let i = index" >
-    <span class="glyphicon glyphicon-folder-open" *ngIf="module1.scriptName===module2.scriptName && module1.featureName===module.featureName" >{{module2.scriptName}}</span>
-    </li></ul> 
-    </li> -->
-    <!-- <br><br> -->
-    
-    
-    
-    
-    
-    <!-- <ul *ngFor="let module of moduleDetails ; let i = index" >
-    <li (click)="manualtoggle(module.moduleName,i)" class="glyphicon glyphicon-folder-open">
-    {{module.moduleName}}
-    </li > 
-    <br><br>
-    <ul *ngFor="let feature of finalFeature;let i = index" >
-    <li (click)="manualtoggle2(feature.featureName,i)" class="glyphicon glyphicon-folder-open">
-    {{feature.featureName}}
-    <ul>
-    <li *ngFor="let script of finalScript ; let i = index" >
-    <span class="glyphicon glyphicon-folder-open" *ngIf="feature.scriptName===script.scriptName" >{{script.scriptName}}</span>
-    </li></ul> 
-    </li>
-    <br><br> -->
-    <!-- <ul >
-    <li *ngFor="let script of finalScript ; let i = index" class="glyphicon glyphicon-folder-open">
-    {{script.scriptName}}
-    </li> 
-    </ul> -->
-    </ul>
-    
-    <br>
-    
-    
-    
-    </ul> 
-    
-    <br>
-    <button (click)=run(moduleName,featureName,lineNum,projectSelection)>Run</button>
-    
-    </div>
-    </div>
+
+<span>
+
+Module :
+<select [(ngModel)]="moduleId" >
+<option *ngFor = "let var_moduleName of moduleNames" value="{{var_moduleName.moduleId}}" (click)="moduleIndex(var_moduleName)">{{var_moduleName.moduleName}}</option>
+
+</select>
+</span>
+<span>
+Feature :
+<select [(ngModel)]="featureId" >
+<option *ngFor = "let var2_featureName of featureNames" value="{{var2_featureName.featureId}}">{{var2_featureName.featureName}}</option> 
+</select>
+</span> 
+<button (click)=search(moduleId,featureId)>Search</button>
+</div>
+<br><br>
+<div class="row">
+<div class="col-md-7" style="font-size: 15px"> 
+
+<body id="main"> 
+<br><br> 
+
+<div class="container" style="font-size: 15px">
+<table class="table table-condensed" style="width:100%">
+<thead style="width:100%">
+<tr *ngIf="srch==true">
+<th></th>
+<th style="width: 110px;">Module Name</th>
+<th style="width: 110px;">Feature Name </th>
+<th style="width: 500px;">Script Name</th>
+<th style="width: 500px;">line no</th>
+
+</tr>
+</thead>
+<tbody class="table1">
+<tr *ngFor = "let test of testScriptsData; let i = index;" > 
+<td *ngIf="srch==true" ><input type="checkbox" (click)=row(i,test)></td> 
+<td *ngIf="srch==true" style="width: 110px;">{{test.moduleName}}</td>
+<td *ngIf="srch==true" style="width: 110px;">{{test.featureName}}</td>
+<td *ngIf="srch==true" style="width: 538px;">{{test.scriptName}}</td>
+<td *ngIf="srch==true" style="width: 538px;">{{test.lineNum}}</td>
+
+</tr>
+</tbody>
+
+</table>
+
+</div>
+</body> 
+</div>
+<div class="col-md-3" style="font-size: 15px"> 
+
+<ul style = "list-style-type:none;" *ngFor="let module of featureDetails3 ; let i = index" >
+<li (click)="manualtoggle(module.moduleName,i)" >
+
+<span class="glyphicon glyphicon-folder-open" > {{module.moduleName}} </span>
+
+</li > 
+<!-- <br><br> -->
+<ul style = "list-style-type:none;" *ngIf="i===ind" >
+<li *ngFor="let module1 of module.featureName ;let j = index" (click)="manualtoggle2(module1.featureName,j)" >
+
+<span class="glyphicon glyphicon-folder-open" > {{module1.featureName}}</span>
+
+<ul style = "list-style-type:none;" *ngIf="j===indU" >
+<li *ngFor="let module2 of module1.scriptName" >
+
+<span class="glyphicon glyphicon-folder-open" > {{module2.scriptName}}</span>
+</li> 
+</ul> 
+
+
+</ul>
+
+<br>
+
+
+
+</ul> 
+
+<br>
+<button (click)=run()>Run</button>
+
+</div>
+</div>
